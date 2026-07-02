@@ -197,7 +197,7 @@ By applyin 2 layers: Design Assessment and execution Assessment
 
 
 
-### Second generation of reviewers (Domain Specific Skills Reviewers for QA process)
+### Second generation of reviewers: Domain Specific Skills Reviewers for QA process (Future Roadmap)
 
 This generation tries to answer two main questions:
 
@@ -214,22 +214,6 @@ This generation tries to answer two main questions:
 - Test Strategy Reviewer
 - AI-Assisted QA Reviewer
 
-#### 4.1 QA Domains where Skills Exist (For Future Implementations)
-
-**Initial Taxonomy.**
-
-Agrupación de las tareas QA en dominios funcionales.
-
-| Dominio | Skills description |Ejemplos |
-| :--- | :--- | :--- |
-| 1- Requirements Analysis | Skills orientadas a: analizar historias, detectar ambigüedades, detectar inconsistencias, identificar criterios faltantes | `Review User Story`, `Generate Acceptance Criteria`, `Find Ambiguities`, `Find Missing Requirements |
-| 2- Test Design | Skills que generan: test cases, test scenarios, decision tables, pairwise combinations | `Generate Test Cases`, `Generate Boundary Tests`, `Generate Exploratory Scenarios`, `Generate Negative Tests` |
-| 3- Test Automation | Skills que generan: Selenium, Playwright, Cypress, API tests | `Generate Playwright Test`, `Generate Page Object`, `Generate API Test`, `Generate Test Data Builder |
-| 4- Code Review | Skills para revisar: test code, framework architecture, maintainability | `Review Playwright Architecture`, `Review Test Maintainability`, `Review Selector Strategy |
-| 5- Defect Analysis | Skills para: analizar bugs, identificar root causes | `Bug Analysis`, `Root Cause Analysis`, `Failure Classification |
-| 6- Test Strategy | Skills para: planes QA, cobertura, riesgos | `Generate Test Plan`, `Risk Analysis`, `Coverage Review |
-| AI-Assisted QA | Muy importante. Skills específicas para IA. | Prompt Review, Agent Workflow Review, Skill Review, Agent Contract Review |
-
 
 #### 4.2 Reviewers Architecture (ROADMAP-1-SKILL-REVIEWER for QA Process)
 
@@ -244,21 +228,4 @@ Justification:
 * Reusability of the components.
 * Scalability.
 
-```txt
-                    Skill
-                       │
-                       ▼
-             Reviewer Orchestrator
-                       │
-      ┌────────────────┼────────────────┐
-      │                │                │
-      ▼                ▼                ▼
 
-Requirement      Test Design      Automation
-Reviewer          Reviewer         Reviewer
-
-      ▼                ▼                ▼
-
-Prompt         Architecture      Skill Logic
-Reviewer       Reviewer          Reviewer
-```
