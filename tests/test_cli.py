@@ -90,14 +90,9 @@ class TestMainSubprocess:
     where the trigger is emitted cleanly without the no-agent error.
     """
 
-    # Resolve the venv sqaf entry point relative to this file
-    _SQAF = str(
-        Path(__file__).resolve().parent.parent / "venv" / "bin" / "sqaf"
-    )
-
     def _run(self, *args: str) -> subprocess.CompletedProcess:
         return subprocess.run(
-            [self._SQAF, *args],
+            [sys.executable, "-m", "sqaf", *args],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,   # merge stderr into stdout
             text=True,
