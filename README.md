@@ -12,6 +12,7 @@ For deeper dives into the architectural definitions and development practices, r
 - [Development Guidelines](docs/development_guideline.md) — Strict engineering principles (Isolation, Single Responsibility, Resource Accountability).
 - [Skill Quality Calculator Implementation Plan](docs/calculator_implementation_plan.md) — Scoring formulas, downgrade gates, and the CLI execution structure.
 - [CLI User Guide](docs/cli_user_guide.md) — Installation, commands reference, usage modes, and agent integration notes for the `sqaf` CLI runner.
+- [Test Component Description](docs/test_component_description.md) — A comprehensive explanation of testing strategies, mock behaviors, and environment isolation techniques used in the framework.
 
 ---
 
@@ -29,34 +30,15 @@ If the execution fails, it is difficult to determine if the failure was caused b
 ### The Solution: Shift-Left QA over Skills
 SQAF resolves this by introducing an isolated evaluation layer that assesses the *skill itself* separately from the execution agent or the system under test. It was created after a formal **research phase** dedicated to defining the taxonomic classification of QA tasks, prompt design strategies, and evaluator isolation rules. 
 
-The framework is built using industry best practices, drawing inspiration from reference frameworks and guidelines provided by **Anthropic** [the original creator of the open Agent Skills format] and **GitHub** (standards for repository structure, validation, and automation).
+The framework is built using industry best practices, drawing inspiration from reference frameworks and guidelines provided by **Anthropic** (the original creator of the open Agent Skills format) and **GitHub** (standards for repository structure, validation, and automation).
 
 ---
 
 ## System Prerequisites & LLM Dependency
-> [!IMPORTANT]
-> The Skill Quality Assurance Framework is an AI-agent-driven validation system. It **depends on existing LLM preconditions** being set up in the execution environment.
+**IMPORTANT**
+The Skill Quality Assurance Framework is an AI-agent-driven validation system. It **depends on existing LLM preconditions** being set up in the execution environment.
 - **Model Access**: The reviewing sub-agents must have access to API keys (e.g., Anthropic Claude, OpenAI GPT, or Google Gemini) configured in your shell environment variables.
 - **Agent Client**: The Orchestrator requires an execution client (e.g., Claude Code, Antigravity, or other compatible CLI runner) to be running and authorized.
-
----
-
-## Sub-Agent Structure
-Each reviewer (sub-agent) in the framework is built as an isolated module. Below is the directory structure that governs every sub-agent:
-
-```mermaid
-graph TD
-    AgentFolder["Sub-Agent Directory (e.g., intent-reviewer/)"]
-    AgentFolder --> AgentFile["Agent System Prompt File (.md)<br><i>Contains System Prompt, Instructions, Rules</i>"]
-    AgentFolder --> RefFolder["Reference Directory (reference/)<br><i>Contains external guidelines, standards, best practices</i>"]
-    AgentFolder --> AssetFolder["Assets Directory (assets/)<br><i>Contains JSON validation schemas & templates</i>"]
-```
-
-### Reviewer Isolation Rules
-To prevent cognitive bias, context contamination, and false positives/negatives:
-1. Reviewers operate completely independently.
-2. Reviewers do not inspect other reviewers' assessments.
-3. The **Assessment Summarizer** is the *only* component allowed to access all reviewer outputs, functioning strictly as a reporting aggregator without performing additional evaluations.
 
 ---
 
@@ -94,6 +76,25 @@ flowchart TD
 
 ---
 
+## Sub-Agent Structure
+Each reviewer (sub-agent) in the framework is built as an isolated module. Below is the directory structure that governs every sub-agent:
+
+```mermaid
+graph TD
+    AgentFolder["Sub-Agent Directory (e.g., intent-reviewer/)"]
+    AgentFolder --> AgentFile["Agent System Prompt File (.md)<br><i>Contains System Prompt, Instructions, Rules</i>"]
+    AgentFolder --> RefFolder["Reference Directory (reference/)<br><i>Contains external guidelines, standards, best practices</i>"]
+    AgentFolder --> AssetFolder["Assets Directory (assets/)<br><i>Contains JSON validation schemas & templates</i>"]
+```
+
+### Reviewer Isolation Rules
+To prevent cognitive bias, context contamination, and false positives/negatives:
+1. Reviewers operate completely independently.
+2. Reviewers do not inspect other reviewers' assessments.
+3. The **Assessment Summarizer** is the *only* component allowed to access all reviewer outputs, functioning strictly as a reporting aggregator without performing additional evaluations.
+
+---
+
 ## Resource & Token Consumption
 
 Token usage scales based on the depth of the assessment:
@@ -110,7 +111,7 @@ graph TD
     B --> C[Generate Markdown Report]
     C --> D[Less Token Inputs, More Predictable Costs]
     
-    E[Execution-Enabled Assessment] --Intent R1, Instruction R2, QA R3, Eval R4--> F[Aggregator & Downloader]
+    E[Design-Only Assessment + Execution-Enabled Assessment] --Intent R1, Instruction R2, QA R3, Eval R4--> F[Aggregator & Downloader]
     F --> G[Generate Markdown Report]
     G --> H[More Token Inputs, Less Predictable Costs]
 ```
@@ -168,7 +169,7 @@ This mode was introduced to allow **agentic CLI tools** (Claude Code CLI, Codex 
 
 ```bash
 # Recommended: use a virtual environment (for developers and AI practitioners)
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 pip install -e .
 
@@ -231,24 +232,33 @@ The framework includes a standalone, deterministic utility (`skills/assessment-s
 
 ### Running All Tests
 
-All framework tests — calculator, CLI session, skill discovery — run with a single command from the framework root:
+The framework contains a total of **122 automated unit and integration tests** .
+
+The project testing system cover the following components:
+- Calculator: score aggregation, risk mapping, downgrade gates, CLI entrypoint
+- CLI session: AssessmentSession validity rules and auto-population
+- CLI session builder: Interactive and non-interactive session building
+- Skills discovery: Workspace scanner and eval artifact detection
+- CLI: CLI entrypoint and non-interactive session building
+- Orchestrator: Orchestrator workflow execution
+- Banner: Banner display and non-interactive session building
+- Runner: Runner execution and non-interactive session building
+- Renderer: CLI output renderers (PlainRenderer, RichRenderer, and factory)
+
+All framework tests — calculator, CLI session, skill discovery — 
+run with a single command from the framework root:
 
 ```bash
 ./venv/bin/python -m pytest tests/ -v
 ```
-
-| Test File | Coverage |
-|-----------|----------|
-| `test_calculator.py` | Score aggregation, risk mapping, downgrade gates, CLI entrypoint |
-| `test_session.py` | `AssessmentSession` validity rules and auto-population |
-| `test_session_builder.py` | Interactive and non-interactive session building |
-| `test_skills_discovery.py` | Workspace scanner and eval artifact detection |
 
 To run only calculator tests:
 
 ```bash
 ./venv/bin/python -m pytest tests/test_calculator.py -v
 ```
+
+For a comprehensive explanation of testing strategies, mock behaviors, and environment isolation techniques, see the [Test Component Description](docs/test_component_description.md) documentation.
 
 ---
 

@@ -26,14 +26,20 @@ class OrchestratorRunner:
     def execute(self) -> None:
         """Show confirmation screen, then launch if confirmed."""
         self._show_summary()
-        if not self._renderer.confirm("Start Assessment?", default=True):
-            self._renderer.blank()
-            self._renderer.error("Assessment cancelled.")
-            return
 
-        self._renderer.blank()
-        self._renderer.success("Starting Skill Assessment...\n")
-        trigger(self._session)
+        # Non-interactive mode: session was fully pre-filled — skip confirmation.
+        if self._session.execution_mode == "non-interactive":
+            self._renderer.blank()
+            self._renderer.success("Starting Skill Assessment...\n")
+            trigger(self._session)
+        else:
+            if not self._renderer.confirm("Start Assessment?", default=True):
+                self._renderer.blank()
+                self._renderer.error("Assessment cancelled.")
+                return
+            self._renderer.blank()
+            self._renderer.success("Starting Skill Assessment...\n")
+            trigger(self._session)
 
         # ── Post-trigger precondition check ────────────────────────────────────
         # When an agent CLI runs sqaf as a subprocess, stdout is PIPED — the

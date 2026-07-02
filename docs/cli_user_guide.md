@@ -18,6 +18,10 @@ sqaf
 
 The CLI collects the necessary information through a guided conversation (or reads it from flags in automated mode), constructs a valid `AssessmentSession`, and emits the orchestrator trigger to stdout — which the embedding agent then acts on.
 
+![sqaf cli](ui_cli_assets/cli_interface.png)
+
+> The yellow highlighted was use to preserve user path privacy
+
 ---
 
 ## Architecture Overview
