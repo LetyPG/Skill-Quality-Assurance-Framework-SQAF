@@ -1,0 +1,30 @@
+{
+    "assertion_results": [
+        {
+            "text": "The output includes a bar chart image file",
+            "passed": true,
+            "evidence": "Found chart.png (45KB) in outputs directory"
+        },
+        {
+            "text": "The chart shows exactly 3 months",
+            "passed": true,
+            "evidence": "Chart displays bars for March, July, and November"
+        },
+        {
+            "text": "Both axes are labeled",
+            "passed": false,
+            "evidence": "Y-axis is labeled 'Revenue ($)' but X-axis has no label"
+        },
+        {
+            "text": "The chart title or caption mentions revenue",
+            "passed": true,
+            "evidence": "Chart title reads 'Top 3 Months by Revenue'"
+        }
+    ],
+    "summary": {
+        "total_passed": 3,
+        "total_failed": 1,
+        "total": 4,
+        "pass_rate": 0.75
+    }
+}

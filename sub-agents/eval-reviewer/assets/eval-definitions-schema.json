@@ -1,0 +1,19 @@
+{
+    "skill_name": "csv-analyzer",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "I have a CSV of monthly sales data in data/sales_2025.csv. Can you find the top 3 months by revenue and make a bar chart?",
+            "expected_output": "A bar chart image showing the top 3 months by revenue, with labeled axes and values.",
+            "files": [
+                "evals/files/sales_2025.csv"
+            ],
+            "assertions": [
+                "The output includes a bar chart image file",
+                "The chart shows exactly 3 months",
+                "Both axes are labeled",
+                "The chart title or caption mentions revenue"
+            ]
+        }
+    ]
+}

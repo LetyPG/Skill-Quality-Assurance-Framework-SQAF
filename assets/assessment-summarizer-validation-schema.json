@@ -1,0 +1,70 @@
+{
+    "mandatory_fields": {
+        "framework": "skill-quality-assurance-framework",
+        "aggregation_metadata": {
+            "aggregation_timestamp": "",
+            "aggregated_by": "assessment-summarizer",
+            "aggregation_status": "COMPLETED"
+        },
+        "validation_summary": {
+            "validation_status": "PASSED",
+            "workflow_health": "PASS",
+            "required_artifacts": {
+                "skill_assessment": {
+                    "path": "assessment/skill-assessment.json",
+                    "required": true,
+                    "exists": true,
+                    "schema_valid": true
+                },
+                "optional": {
+                    "eval_assessment": {
+                        "path": "assessment/eval-assessment.json",
+                        "required": false,
+                        "exists": false,
+                        "schema_valid": false,
+                        "reason": "Execution review was not requested."
+                    }
+                }
+            }
+        },
+        "reviewer_completion": {
+            "intent_review": {
+                "completed": true,
+                "status": "COMPLETED"
+            },
+            "instruction_review": {
+                "completed": true,
+                "status": "COMPLETED"
+            },
+            "qa_review": {
+                "completed": true,
+                "status": "COMPLETED"
+            },
+            "eval_review": {
+                "completed": false,
+                "status": "SKIPPED"
+            }
+        },
+        "repair_summary": {
+            "repair_attempts": 0,
+            "failed_reviewers": [],
+            "validation_failures": [],
+            "missing_artifacts": []
+        },
+        "aggregation_readiness": {
+            "ready_for_aggregation": true,
+            "blocking_issues": [],
+            "warnings": []
+        },
+        "resource_consumption": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "execution_time_seconds": 0
+        },
+        "next_action": {
+            "trigger_aggregation": true,
+            "target_artifact": "assessment/skill-quality-report.json"
+        }
+    }
+}

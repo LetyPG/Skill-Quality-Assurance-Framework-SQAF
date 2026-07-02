@@ -1,0 +1,34 @@
+{
+    "mandatory_fields": {
+        "reviewer": "Intent Reviewer",
+        "assessment_status": "PASS",
+        "score": 91,
+        "findings": [
+            {
+                "severity": "INFO | WARNING | ERROR | CRITICAL",
+                "category": "OBJECTIVE_CLARITY",
+                "message": "Success criteria are partially defined.",
+                "evidence": "..."
+            }
+        ],
+        "recommendations": [
+            "Define measurable success criteria."
+        ],
+        "resource_consumption": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "execution_time_seconds": 0
+        },
+        "assessment_artifact": "assessment/intent-review.json"
+    },
+    "optional_fields": {
+        "agent_reviewer_name": {
+            "score_breakdown": {
+                "clarity": 90,
+                "completeness": 95,
+                "testability": 85
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+{
+  "report_metadata": {
+    "framework": "skill-quality-assurance-framework",
+    "skill_name": "",
+    "report_timestamp": "",
+    "workflow_health": "PASS"
+  },
+  "assessment_summary": {
+    "design_score": 0,
+    "execution_score": 0,
+    "overall_score": 0,
+    "risk_level": "LOW",
+    "recommendation": "APPROVED"
+  },
+  "reviewer_status": {
+    "intent_review": "COMPLETED",
+    "instruction_review": "COMPLETED",
+    "qa_review": "COMPLETED",
+    "eval_review": "COMPLETED"
+  },
+  "validation_summary": {
+    "missing_artifacts": [],
+    "failed_validations": [],
+    "repair_attempts": 0
+  },
+  "key_findings": [],
+  "recommended_actions": [],
+  "resource_consumption": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "execution_time_seconds": 0
+  },
+  "assessment_artifacts": {
+    "skill_assessment": "assessment/skill-assessment.json",
+    "eval_assessment": "assessment/eval-assessment.json"
+  }
+}

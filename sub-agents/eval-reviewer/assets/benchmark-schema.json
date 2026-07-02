@@ -1,0 +1,76 @@
+{
+    "metadata": {
+        "eval_id": 2,
+        "skill_name": "pdf",
+        "skill_path": "/path/to/pdf",
+        "executor_model": "claude-sonnet-4-20250514",
+        "analyzer_model": "most-capable-model",
+        "timestamp": "2026-01-15T10:30:00Z",
+        "evals_run": [
+            1,
+            2
+        ],
+        "runs_per_configuration": 2
+    },
+    "tool_metrics": {
+        "tool_calls": {
+            "Read": 5,
+            "Write": 2,
+            "Bash": 8,
+            "Edit": 1,
+            "Glob": 2,
+            "Grep": 0
+        },
+        "total_tool_calls": 18,
+        "total_steps": 6,
+        "files_created": [
+            "filled_form.pdf",
+            "field_values.json"
+        ],
+        "errors_encountered": 0,
+        "output_chars": 12450,
+        "transcript_chars": 3200
+    },
+    "run_summary": {
+        "with_skill": {
+            "pass_rate": {
+                "mean": 0.83,
+                "stddev": 0.06
+            },
+            "time_seconds": {
+                "mean": 45.0,
+                "stddev": 12.0
+            },
+            "tokens": {
+                "mean": 3800,
+                "stddev": 400
+            }
+        },
+        "without_skill": {
+            "pass_rate": {
+                "mean": 0.33,
+                "stddev": 0.10
+            },
+            "time_seconds": {
+                "mean": 32.0,
+                "stddev": 8.0
+            },
+            "tokens": {
+                "mean": 2100,
+                "stddev": 300
+            }
+        },
+        "delta": {
+            "pass_rate": 0.50,
+            "time_seconds": 13.0,
+            "tokens": 1700
+        }
+    },
+    "notes": [
+        "reggression patterns identified",
+        "need more test cases to validate",
+        "fragile assertions.",
+        "Eval {id} shows high variance (50% ± 40%) - may be flaky or model-dependent",
+        "High tool usage"
+    ]
+}

@@ -1,0 +1,21 @@
+venv/
+
+# Framework Assessment Directory
+framework-assessment/
+
+# Test cache
+.pytest_cache/
+pyrightconfig.json
+
+# Python bytecode cache
+__pycache__/
+*.pyc
+
+# Ai coding
+spec/
+
+# Distribution packages
+dist/
+build/
+*.egg-info/
+sqaf.egg-info/

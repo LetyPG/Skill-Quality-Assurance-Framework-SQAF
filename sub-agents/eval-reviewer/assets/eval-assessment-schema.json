@@ -1,0 +1,67 @@
+{
+    "mandatory_fields": {
+        "reviewer": "Eval Reviewer",
+        "assessment_status": "PASS",
+        "score": 91,
+        "findings": [
+            {
+                "severity": "INFO | WARNING | ERROR | CRITICAL",
+                "category": "OBJECTIVE_CLARITY",
+                "message": "Success criteria are partially defined.",
+                "evidence": "..."
+            }
+        ],
+        "recommendations": [
+            "Define measurable success criteria."
+        ],
+        "resource_consumption": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "execution_time_seconds": 0
+        },
+        "assessment_artifact": "assessment/eval-results-review.json"
+    },
+    "eval_execution": {
+        "risk_level": "LOW",
+        "pass_rate": 0,
+        "stability_score": 0,
+        "performance_score": 0,
+        "assertion_results": [],
+        "benchmark_summary": {
+            "with_skill": {
+                "pass_rate": {
+                    "mean": 0.83,
+                    "stddev": 0.06
+                },
+                "time_seconds": {
+                    "mean": 45.0,
+                    "stddev": 12.0
+                },
+                "tokens": {
+                    "mean": 3800,
+                    "stddev": 400
+                }
+            },
+            "without_skill": {
+                "pass_rate": {
+                    "mean": 0.83,
+                    "stddev": 0.06
+                },
+                "time_seconds": {
+                    "mean": 45.0,
+                    "stddev": 12.0
+                },
+                "tokens": {
+                    "mean": 3800,
+                    "stddev": 400
+                }
+            },
+            "delta": {
+                "pass_rate": 0.50,
+                "time_seconds": 13.0,
+                "tokens": 1700
+            }
+        }
+    }
+}
