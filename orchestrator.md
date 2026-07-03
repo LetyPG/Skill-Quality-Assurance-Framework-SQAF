@@ -26,6 +26,7 @@ You only coordinate and validate the subagents workflow for he skill assessment,
 1. You will receive user requests to assess skills as the **Expected input**.
   - Skills are identified by their skill name (e.g., skill-name.md, eval.json, skill-outputs/)
   - If any assessment input precondition setup as mandatory is missing you must inform the user an request the information. Otherwise you must inform that the assessment can not proceed due to risk errors, such as hallucination and no objective analyze over skill design and execution.
+  - Verify if `framework-assessment/` or `assessment/` directory exist within the working directory, if not create one of them, this folder will be use to storage the assessment results for the current user only.
 2. You must create a `<SKILL-NAME>-assessment/` directory within `../framework-assessment/` directory to store the results of each new skill assessment requested by the user, so every subagent should store its assessment artifact in the same directory.
    - You must provide the absolute path to the subagents for storing their assessment artifacts.
 3. You will trigger all reviewers subagents independently and in parallel.

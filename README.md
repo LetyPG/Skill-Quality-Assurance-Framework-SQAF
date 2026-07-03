@@ -161,6 +161,9 @@ git clone https://github.com/....
 cd skill-quality-assurance-framework
 ```
 
+### 2. Try the Proof of Concept (PoC) Skills
+If you want to test the framework immediately, we have provided dummy skills in the `data-test-poc/` directory. You can use these ready-made skills to trigger assessments and see how the framework operates. See the [Data Test PoC README](data-test-poc/README.md) for more details.
+
 ---
 
 ### Usage Mode A — IDE Chat (Agent Embedded)
@@ -285,3 +288,16 @@ To run only calculator tests:
 
 For a comprehensive explanation of testing strategies, mock behaviors, and environment isolation techniques, see the [Test Component Description](docs/test_component_description.md) documentation.
 
+---
+
+## Contributing
+
+SQAF is an evolving open-source project, and community contributions are highly appreciated.
+Whether you've found a bug, identified an improvement, or want to propose a new feature, feel free to open an Issue or submit a Pull Request.
+Please read the [Contribution & Governance Guide](GOVERNANCE_CONTRIBUTING.md) before contributing to understand the project's workflow, contribution guidelines, and governance model.
+Every contribution—large or small—helps make SQAF a more robust and reliable framework for AI Skill quality assurance.
+
+License
+Copyright 2026 Leticia Perez Gainza. Licensed under the Apache License 2.0.
+
+See [LICENSE](LICENSE) for details.
