@@ -61,6 +61,7 @@ This approach significantly reduces token consumption and leads to faster, deter
 
 ## System Prerequisites & LLM Dependency
 **IMPORTANT**
+
 The Skill Quality Assurance Framework is an AI-agent-driven validation system. It **depends on existing LLM preconditions** being set up in the execution environment.
 - **Model Access**: The reviewing sub-agents must have access to API keys (e.g., Anthropic Claude, OpenAI GPT, or Google Gemini) configured in your shell environment variables.
 - **Agent Client**: The Orchestrator requires an execution client (e.g., Claude Code, Antigravity, or other compatible CLI runner) to be running and authorized.
@@ -69,6 +70,7 @@ The Skill Quality Assurance Framework is an AI-agent-driven validation system. I
 
 ## Input Flow & Activation Workflow
 The **Lead QA Orchestrator** coordinates the entire assessment process. To trigger the orchestrator, you must provide the complete path to the target skill.
+
 > [!NOTE]
 > **Design Decision – Reinforcement Through Instruction Redundancy**
 > 

@@ -18,12 +18,36 @@ Each component must perform exactly one responsibility.
 
 Examples:
 
-* Orchestrator → coordinates workflow.
-* Intent Reviewer → evaluates intent and format only (e.g., does the skill description match the skill's functionality?)
-* QA Reviewer → evaluates context efficiency only (how the skill uses context, hallucination prevention, output contract, and evaluation methodology).
-* Assessment Aggregator → aggregates assessments only.
+* `Orchestrator` → coordinates workflow.
+* `Intent Reviewer` → evaluates intent and format only (e.g., does the skill description match the skill's functionality?)
+* `Instruction Reviewer` → evaluates the clarity, completeness, and testability of the skill's instructions.
+* `QA Reviewer` → evaluates context efficiency only (how the skill uses context, hallucination prevention, output contract, and evaluation methodology).
+* `Assessment Aggregator` → Skill that aggregates assessments only.
 
 Reviewers must never perform another reviewer's responsibility.
+
+### Designs Decision
+
+#### Orchestrator
+
+- Include rules for the entire workflow
+- Harness all the features of the framework
+- Use prompt engineering strategies to improve instruction fidelity and reduce the likelihood that critical framework rules are overlooked during execution.
+
+>Reinforcement Through Instruction Redundancy
+>
+>The `Orchestrator`'s system prompt intentionally distributes critical rules throughout multiple sections of the prompt. Instead of repeating identical sentences, equivalent constraints are expressed using different wording while preserving the same semantic intent and consistently reinforcing key concepts.
+>
+>This design follows a prompt engineering strategy that increases the prominence of high-priority constraints during reasoning.
+>The objective is to improve instruction fidelity and reduce the likelihood that critical framework rules are overlooked during execution.
+
+#### Reviewers
+
+- Each reviewer must be self-contained and deterministic.
+- Each reviewer must not know about the existence of other reviewers or their results.
+- Apply its on reasoning parameters and use its specifics knowledge/reference material to produce the assessment, this keeps the context focused to the minimum.
+- The reviewer can use its specific knowledge only if it improves the quality of the assessment. 
+- The reviewer should not use external knowledge/reference material unless it is explicitly provided by the user.
 
 ---
 
@@ -165,27 +189,18 @@ Reviewers may request additional reference material when required but must never
 
 # Validation Philosophy
 
-The preferred workflow is:
-
-Assess
-
-↓
-
-Validate
-
-↓
-
-Correct
-
-↓
-
-Revalidate
-
-↓
-
-Complete
-
 The framework prioritizes validation loops over speculative completion.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Assess
+    Assess --> Enhance
+    Enhance --> Validate
+    Validate --> Correct: No compliance
+    Correct --> Revalidate
+    Revalidate --> [*]: Compliance
+    Validate --> [*]: No compliance needed
+```
 
 ---
 
