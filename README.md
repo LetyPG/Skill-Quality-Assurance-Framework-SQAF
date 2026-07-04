@@ -32,6 +32,14 @@ SQAF resolves this by introducing an isolated evaluation layer that assesses the
 
 The framework is built using industry best practices, drawing inspiration from reference frameworks and guidelines provided by **Anthropic** (the original creator of the open Agent Skills format) and **GitHub** (standards for repository structure, validation, and automation).
 
+### Framwork Stack
+
+- Python 3.11+
+- Rich (for rich text and UI)
+- Pytest (for testing)
+- Ruff (for linting)
+- Pyfiglet (for ASCII art)
+
 
 ### Framework Benefits:
 
@@ -73,13 +81,11 @@ The **Lead QA Orchestrator** coordinates the entire assessment process. To trigg
 
 > [!NOTE]
 > **Design Decision – Reinforcement Through Instruction Redundancy**
-> 
-> The Orchestrator's system prompt intentionally distributes critical rules throughout multiple sections of the prompt. Instead of repeating identical sentences, equivalent constraints are expressed using different wording while preserving the same semantic intent and consistently reinforcing key concepts.
-> 
-> This design follows a prompt engineering strategy that increases the prominence of high-priority constraints during reasoning. The objective is to improve instruction fidelity and reduce the likelihood that critical framework rules are overlooked during execution.
+> See details in [Development Guidelines](docs/development_guideline.md#design-decisions).
 
 ### 1. Trigger Command
 The input prompt sent to the Orchestrator must contain the path to the skill directory containing the `SKILL.md` file:
+
 ```txt
 Assess the quality of the following skill: ./skills/my-skill/SKILL.md
 ```
@@ -296,6 +302,17 @@ To run only calculator tests:
 ```
 
 For a comprehensive explanation of testing strategies, mock behaviors, and environment isolation techniques, see the [Test Component Description](docs/test_component_description.md) documentation.
+
+---
+
+## CI Pipeline
+
+Every push and pull request targeting the `main` branch triggers the **GitHub Actions CI workflow** (`.github/workflows/ci.yml`). The pipeline enforces code quality automatically before tests are allowed to run.
+See details in [Test Component Description](docs/test_component_description.md#ci-pipeline).
+
+### Lint Gate
+
+The linting step uses `ruff`, a fast, zero-config Python linter that enforces PEP 8, import ordering, and common style rules. It runs **before** the test suite so that style violations are caught early without consuming testing execution time.
 
 ---
 

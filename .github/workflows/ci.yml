@@ -29,6 +29,10 @@ jobs:
           # Install the package in editable mode with all optional dependencies
           pip install -e ".[dev,interactive]"
 
+      - name: Lint with ruff
+        run: |
+          ruff check sqaf/ tests/
+
       - name: Run Test Suite
         run: |
           python -m pytest tests/ -v

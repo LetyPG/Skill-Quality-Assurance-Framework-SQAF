@@ -87,3 +87,46 @@ with patch("builtins.input", return_value="y"):
 - The package installation matches the entry point behavior.
 - Clean execution when piping stdout to an agent (non-TTY).
 - Correct exit status codes on missing parameters (`exit != 0`).
+
+---
+
+## CI Pipeline
+
+Every push and pull request targeting the `main` branch triggers the **GitHub Actions CI workflow** (`.github/workflows/ci.yml`). The pipeline enforces code quality automatically before tests are allowed to run.
+
+### Pipeline Steps
+
+| # | Step | Tool | Purpose |
+|---|------|------|---------|
+| 1 | **Checkout Repository** | `actions/checkout@v4` | Fetches the full source tree |
+| 2 | **Set up Python** | `actions/setup-python@v5` (3.12) | Installs Python with pip cache enabled |
+| 3 | **Install Dependencies** | `pip install -e ".[dev,interactive]"` | Installs `sqaf`, `pytest`, `ruff`, and `pyfiglet` |
+| 4 | **Lint with ruff** | `ruff check sqaf/ tests/` | Checks style, imports, and code quality — fails fast on violations |
+| 5 | **Run Test Suite** | `pytest tests/ -v` | Executes all 122 unit and integration tests |
+
+### Lint Gate
+
+The linting step uses [`ruff`](https://docs.astral.sh/ruff/) — a fast, zero-config Python linter that enforces PEP 8, import ordering, and common style rules. It runs **before** the test suite so that style violations are caught early without consuming test execution time.
+
+```bash
+# Run the same lint check locally before pushing
+ruff check sqaf/ tests/
+```
+
+### Running CI Checks Locally
+
+You can replicate the full CI pipeline locally from the framework root:
+
+```bash
+# 1. Install all dev dependencies
+pip install -e ".[dev,interactive]"
+
+# 2. Lint (mirrors CI lint step)
+ruff check sqaf/ tests/
+
+# 3. Run all tests (mirrors CI test step)
+./venv/bin/python -m pytest tests/ -v
+```
+
+> [!TIP]
+> Running `ruff check` locally before opening a pull request prevents CI failures and keeps the review cycle fast.
