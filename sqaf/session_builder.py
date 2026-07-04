@@ -15,7 +15,6 @@ validated AssessmentSession.
 """
 from __future__ import annotations
 
-import sys
 from pathlib import Path
 
 from sqaf.session import AssessmentSession

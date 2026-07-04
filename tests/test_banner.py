@@ -8,10 +8,7 @@ All tests verify the three core guarantees from the spec:
 """
 from __future__ import annotations
 
-import sys
 from unittest.mock import patch, MagicMock
-
-import pytest
 
 from sqaf.ui.banner import render_banner, _figlet_text, _TITLE, _VERSION
 

@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import pytest
 from pathlib import Path
-from unittest.mock import patch
 
 from sqaf.runner import build_trigger_prompt, trigger
 from sqaf.session import AssessmentSession
