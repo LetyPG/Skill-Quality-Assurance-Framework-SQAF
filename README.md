@@ -69,6 +69,12 @@ The Skill Quality Assurance Framework is an AI-agent-driven validation system. I
 
 ## Input Flow & Activation Workflow
 The **Lead QA Orchestrator** coordinates the entire assessment process. To trigger the orchestrator, you must provide the complete path to the target skill.
+> [!NOTE]
+> **Design Decision – Reinforcement Through Instruction Redundancy**
+> 
+> The Orchestrator's system prompt intentionally distributes critical rules throughout multiple sections of the prompt. Instead of repeating identical sentences, equivalent constraints are expressed using different wording while preserving the same semantic intent and consistently reinforcing key concepts.
+> 
+> This design follows a prompt engineering strategy that increases the prominence of high-priority constraints during reasoning. The objective is to improve instruction fidelity and reduce the likelihood that critical framework rules are overlooked during execution.
 
 ### 1. Trigger Command
 The input prompt sent to the Orchestrator must contain the path to the skill directory containing the `SKILL.md` file:
@@ -238,6 +244,7 @@ sqaf skills/my-skill --eval n --output reports/ --non-interactive
 ## Setting Up `sqaf` in Agent CLI Tools
 
 > [!IMPORTANT]
+> 
 > `sqaf` is a **trigger emitter** — it prints the assessment prompt to stdout. No assessment files are produced unless an active AI agent CLI session reads that output and executes the orchestrator workflow. The agent must be initialized before calling `sqaf`.
 
 ### How It Works
