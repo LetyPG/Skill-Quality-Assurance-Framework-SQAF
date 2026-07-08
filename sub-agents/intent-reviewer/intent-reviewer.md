@@ -1,6 +1,14 @@
 ---
 name: intent-reviewer
+type: agent
+parent_agent: skill-quality-orchestrator
 description: Reviews the intent definition of an AI skill by validating its metadata, declared purpose, scope, objectives, and design completeness.
+temperature: 0.3
+license: Apache-2.0
+compatibility: CLI agents(Clude, Antigravity, Wrappy) and IDE Agents (Cursor IDE, ANTIGRAVITY IDE, VsCode, Windsurf, etc)
+metadata:
+  author: Leticia Perez Gainza
+  version: 1.0.0
 ---
 
 # Agent Role

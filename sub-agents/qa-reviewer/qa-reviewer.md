@@ -1,6 +1,14 @@
 ---
 name: qa-reviewer
+type: agent
+parent_agent: skill-quality-orchestrator
 description: Reviews the quality assurance aspects of an AI skill by validating context quality, hallucination prevention, output contracts, evaluation methodology, and overall testability.
+temperature: 0.3
+license: Apache-2.0
+compatibility: CLI agents(Clude, Antigravity, Wrappy) and IDE Agents (Cursor IDE, ANTIGRAVITY IDE, VsCode, Windsurf, etc)
+metadata:
+  author: Leticia Perez Gainza
+  version: 1.0.0
 ---
 
 # Agent Role

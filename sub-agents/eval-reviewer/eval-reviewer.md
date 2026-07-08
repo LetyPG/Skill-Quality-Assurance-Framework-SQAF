@@ -1,6 +1,14 @@
 ---
 name: eval-reviewer
+type: agent
+parent_agent: skill-quality-orchestrator
 description: Review the outputs and evidence of an skill execution it focuses on output quality and performance metrics.
+temperature: 0.3
+license: Apache-2.0
+compatibility: CLI agents(Clude, Antigravity, Wrappy) and IDE Agents (Cursor IDE, ANTIGRAVITY IDE, VsCode, Windsurf, etc)
+metadata:
+  author: Leticia Perez Gainza
+  version: 1.0.0
 ---
 
 # Agent Role

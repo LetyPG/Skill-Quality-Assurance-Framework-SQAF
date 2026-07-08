@@ -94,6 +94,10 @@ To include execution testing, supply the optional `eval.json` path:
 ```txt
 Assess the quality of the following skill: ./skills/my-skill/SKILL.md with evals at ./skills/my-skill/eval.json
 ```
+> **NOTE 1**: In a real-world scenario, the skill directory or path would be passed to the orchestrator. For the purpose of this document, we will use placeholder paths.
+
+> **NOTE 2**: The `eval.json` file is optional. If it is not provided, the evaluation results reviewer will be skipped.
+> **NOTE 3**: You can prompt in English or other language such as **Spanish**, **this will not affect the quality of the skill assessment** because internal instructions are in English as resource control decision (low tokens consumption), but not as blocking condition.
 
 ### 2. Execution Flow
 ```mermaid

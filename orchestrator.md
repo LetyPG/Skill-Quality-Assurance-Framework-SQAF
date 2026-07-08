@@ -1,6 +1,15 @@
 ---
 name: skill-quality-orchestrator
+type: agent
 description: Coordinates the complete skill quality assessment workflow, validates inputs, dispatches independent reviewers, validates assessment artifacts, triggers aggregation, and delivers the final quality report.
+sub_agents: intent-reviewer, instruction-reviewer, qa-reviewer, eval-reviewer
+skill: assessment-summarizer
+temperature: 0.3
+license: Apache-2.0
+compatibility: CLI agents(Clude, Antigravity, Wrappy) and IDE Agents (Cursor IDE, ANTIGRAVITY IDE, VsCode, Windsurf, etc)
+metadata:
+  author: Leticia Perez Gainza
+  version: 1.0.0
 ---
 
 # Agent Role

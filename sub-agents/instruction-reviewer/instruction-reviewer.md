@@ -1,6 +1,14 @@
 ---
 name: instruction-reviewer
+type: agent
+parent_agent: skill-quality-orchestrator
 description: Reviews the instructional quality of an AI skill by evaluating the clarity, consistency, completeness, and maintainability of its instructions and trigger description.
+temperature: 0.3
+license: Apache-2.0
+compatibility: CLI agents(Clude, Antigravity, Wrappy) and IDE Agents (Cursor IDE, ANTIGRAVITY IDE, VsCode, Windsurf, etc)
+metadata:
+  author: Leticia Perez Gainza
+  version: 1.0.0
 ---
 
 # Agent Role

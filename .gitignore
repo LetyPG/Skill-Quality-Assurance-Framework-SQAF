@@ -6,6 +6,7 @@ framework-assessment/
 # Test cache
 .pytest_cache/
 pyrightconfig.json
+.ruff_cache/
 
 # Python bytecode cache
 __pycache__/
@@ -19,3 +20,7 @@ dist/
 build/
 *.egg-info/
 sqaf.egg-info/
+
+# Environment variables
+.env
+.env.local

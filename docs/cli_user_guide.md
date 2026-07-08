@@ -273,14 +273,12 @@ Add a project-level instruction file so the agent automatically understands how 
 
 **Claude Code → `.claude/CLAUDE.md`**
 
-```markdown
+```txt
 ## SQAF Skill Assessment
 
 To assess a skill, use the `sqaf` CLI runner:
 
-```bash
-sqaf <path/to/skill> --eval y --non-interactive
-```
+bash: `sqaf <path/to/skill> --eval y --non-interactive`
 
 Read the printed trigger from stdout and execute the orchestrator workflow
 as defined in `skill-quality-assurance-framework/orchestrator.md`.
@@ -292,14 +290,12 @@ as defined in `skill-quality-assurance-framework/orchestrator.md`.
 
 **Antigravity / Gemini CLI → `.gemini/GEMINI.md`**
 
-```markdown
+```txt
 ## SQAF Skill Assessment
 
 When assessing a skill's quality, invoke the CLI runner:
 
-```bash
-sqaf <path/to/skill> --eval n --non-interactive
-```
+bash: `sqaf <path/to/skill> --eval n --non-interactive`
 
 The command prints the orchestrator trigger to stdout.
 Execute the workflow following `skill-quality-assurance-framework/orchestrator.md`.
@@ -313,14 +309,12 @@ Configure `sqaf` once at the user level so it is available across all your proje
 
 **Claude Code → `~/.claude/CLAUDE.md`**
 
-```markdown
+```txt
 ## SQAF — Skill Quality Assessment Framework
 
 When asked to assess a skill, use:
 
-```bash
-sqaf <skill-path> --eval y --non-interactive
-```
+bash: `sqaf <path/to/skill> --eval y --non-interactive`
 
 Follow the printed trigger with the orchestrator defined in the project's
 `skill-quality-assurance-framework/orchestrator.md`.
@@ -328,14 +322,12 @@ Follow the printed trigger with the orchestrator defined in the project's
 
 **Antigravity → `~/.gemini/GEMINI.md`**
 
-```markdown
+```txt
 ## SQAF — Skill Quality Assessment Framework
 
 Assess AI agent skills using the sqaf CLI:
 
-```bash
-sqaf <skill-path> --eval n --non-interactive
-```
+bash: `sqaf <skill-path> --eval n --non-interactive`
 
 Read the stdout trigger and execute the orchestrator workflow.
 ```
@@ -344,7 +336,7 @@ Read the stdout trigger and execute the orchestrator workflow.
 
 ### Option C — CI/CD Pipeline (GitHub Actions)
 
-Automate skill assessment on every pull request that modifies a skill directory.
+Automate skill assessment on every pull request that modifies a skill in the `skills` directory.
 
 ```yaml
 # .github/workflows/sqaf-assessment.yml
@@ -390,28 +382,16 @@ jobs:
 ```
 
 > [!NOTE]
-> In CI/CD, the trigger output (`trigger.txt`) is consumed by a downstream agent job configured with the appropriate API keys and orchestrator context. The pipeline above shows the trigger generation step; the agent execution step depends on your CI agent setup.
+> In CI/CD, the trigger output (`trigger.txt`):
+> - is consumed by a downstream agent job configured with the appropriate API keys and orchestrator context. 
+> - should contain the absolute path to the skill to be assessed, remember only one skill can be assessed at a time.
+> - The pipeline above shows the trigger generation step; the agent execution step depends on your CI agent setup.
 
 ---
 
 ## Running the Test Suite
 
-The CLI runner ships with a dedicated test suite. Run it from the framework root:
-
-```bash
-# Using the virtual environment
-./venv/bin/python -m pytest tests/ -v
-
-# Or with the activated venv
-pytest tests/ -v
-```
-
-To run only CLI-related tests:
-
-```bash
-pytest tests/test_session.py tests/test_session_builder.py tests/test_skills_discovery.py -v
-```
-
+The CLI runner ships with a dedicated test suite. Run it from the framework root, read the [Test Components Description](test_components_description.md)
 ---
 
 ## Related Documentation
