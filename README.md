@@ -51,11 +51,11 @@ SQAF resolves this by introducing an isolated evaluation layer that assesses the
 
 The framework is built using industry best practices, drawing inspiration from reference frameworks and guidelines provided by **Anthropic** (the original creator of the open Agent Skills format) and **GitHub** (standards for repository structure, validation, and automation).
 
-**Scope**: SKIIL Assessment on Skills-Base LLM Agents, this means skills systems prompts description **`SKILL.md`**, and skill running results.
+**Scope**: SKIIL Assessment on Skills-Base LLM Agents; this means skills system prompts description **`SKILL.md`**, and skill running results.
 
-**Out of scope**: Skill efficiency in front of business scenarios. Skill RAG and external resorces, such as retrieved documents and knowledge bases, determinist scripts or static templates. 
+**Out of scope**: Skill efficiency in front of business scenarios. Skill RAG and external resources, such as retrieved documents and knowledge bases, deterministic scripts or static templates. 
 
-### Framwork Stack
+### Framework Stack
 
 - Python 3.11+
 - Rich (for rich text and UI)
@@ -76,7 +76,7 @@ The framework is built using industry best practices, drawing inspiration from r
 | **CI/CD Ready** | Produces structured artifacts suitable for automated quality gates, pull request reviews, and continuous integration workflows. |
 | **Framework Extensibility** | Modular reviewer architecture allows new quality dimensions to be incorporated without affecting existing components. |
 | **Evidence-Based Reporting** | Every finding is supported by explicit evidence, making reviews transparent, traceable, and easier to validate. |
-| **Cost Optimization** | Encourages improving Skills from assessment reports instead of repeatedly executing expensive evaluation cycles, reducing token consumption and overall development costs. |
+| **Cost Optimization** | Encourages improving skills based on assessment reports rather than repeatedly running expensive evaluation cycles, reducing token consumption and overall development costs. |
 
 ### Iterative Improvement Loop
 
@@ -113,7 +113,7 @@ After you clone and init your IDE environment or by CLI
 ---
 ## Two Ways to Use SQAF
 
-SQAF supports two execution surfaces. Both trigger the same orchestrator workflow, only the entry point differs. Both modes produce identical assessment artifacts.
+SQAF supports two execution surfaces. Both trigger the same orchestrator workflow; only the entry point differs. Both modes produce identical assessment artifacts.
 
 | Mode | How | Best For |
 |------|-----|----------|
@@ -132,18 +132,18 @@ This is the original usage mode. The framework orchestrator runs inside your IDE
 Assess the quality of the following skill: ./skills/my-skill/SKILL.md
 ```
 
-**NOTE**: The previous instruction will only assess the skill design layer, but if you need to assess the skill's efficiency (after running it), you must create your asertions using an `eval.json` file and then provide to the agent the path to the `eval.json` file.
+**NOTE**: The previous instruction will only assess the skill design layer, but if you need to assess the skill's efficiency (after running it), you must create your assertions using an `eval.json` file and then provide the path to the `eval.json` file.
 
 To include this execution assessment:
 ```txt
 Assess the quality of the following skill: ./skills/my-skill/SKILL.md with evals at ./skills/my-skill/eval.json
 ```
-- The execution assessment is optional depends on `eval.json` file existence. If it is not provided, the evaluation results reviewer will be skipped.
-- If you request the execution assessment and the path is omitted, the agent will ask for it and will provides a creation guide automatically (but will not create the `eval.json` file to you).
+- The execution assessment is optional and depends on the existence of the `eval.json` file. If it is not provided, the evaluation results review will be skipped.
+- If you request the execution assessment and the path is omitted, the agent will ask for it and will provide a creation guide automatically (but will not create the `eval.json` file to you).
 
 ### Usage Mode B: CLI Runner `sqaf`
 
-This mode was introduced to allow **agentic CLI tools** (Claude Code CLI, Codex CLI, Antigravity, Gemini CLI) and CI/CD pipelines to invoke SQAF programmatically without IDE embedding. For that read the CLI Agents Configurations section in  [CLI User Guide](docs/cli_user_guide.md)
+This mode was introduced to allow **agentic CLI tools** (Claude Code CLI, Codex CLI, Antigravity, Gemini CLI) and CI/CD pipelines to invoke SQAF programmatically without IDE embedding. For that, read the CLI Agents Configurations section in  [CLI User Guide](docs/cli_user_guide.md)
 
 #### Install
 
@@ -170,6 +170,9 @@ sqaf skills/my-skill --eval y
 sqaf skills/my-skill --eval y --non-interactive
 sqaf skills/my-skill --eval n --output reports/ --non-interactive
 ```
+
+**Strongly recommended**: **DO NOT modify the orchestrator.md file or any other system prompt file in the framework**; doing so may cause the framework to not work as expected.
+
 >[Back to Top](#index)
 ---
 ## System Prerequisites & LLM Dependency
@@ -197,7 +200,7 @@ sqaf (prints trigger) ──stdout──▶ Agent CLI (Claude Code, Antigravity,
                                          ▼
                                skill-quality-report.md produced
 ```
-See more information and recommendations of how setup sqaf in different agent CLI tools at [CLI User Guide](docs/cli_user_guide.md).
+See more information and recommendations on how to set up SQAF in different agent CLI tools at [CLI User Guide](docs/cli_user_guide.md).
 
 >[Back to Top](#index)
 ---
@@ -207,11 +210,11 @@ The workflow use as the Key Features the fallowing components:
 |Component|Role|
 |---|---|
 | Orchestrator | Coordinates the entire assessment process.|
-| 3 Desing Reviewers Agents (Intent Reviewer, Instruction Reviewer, QA Reviewer)| Assesses each skill independently across three dimensions off design, some like format, context definition, gaps, inconcistencies and ambiguity |
-| 1  Evaluators Agent (Eval Results Reviewer)| It works wiyh the concept as *LLM Judge Model* . Assesses the execution results of the skill, include benchmark analysis, timig, grading (asertions rates, success rates, accuracy rates, etc)|
+| 3 Design Reviewers Agents (Intent Reviewer, Instruction Reviewer, QA Reviewer)| Assesses each skill independently across three dimensions of design, some like format, context definition, gaps, inconsistencies, and ambiguity |
+| 1  Evaluators Agent (Eval Results Reviewer)| It works wiyh the concept as *LLM Judge Model* . Assesses the execution results of the skill, including benchmark analysis, timing, grading (assertion rates, success rates, accuracy rates, etc.) |
 | 1  Assessment Summarizer Skill| It works using deterministic rules to calculate the final quality report |
 
-> **NOTE**: You can prompt in English or other language such as **Spanish**, **this will not affect the quality of the skill assessment** because internal instructions are in English as resource control decision (low tokens consumption), but not as blocking condition.
+> **NOTE**: You can prompt in English or another language such as **Spanish**. ** This will not affect the quality of the skill assessment** because internal instructions are in English as a resource control decision (low token consumption), but not as a blocking condition.
 
 ### Execution Flow
 ```mermaid
@@ -252,7 +255,7 @@ graph TD
 ```
 
 ### Calculator Feature 
-The framework use a **Assessment Summarizer** skill, that includes a standalone, deterministic utility (`skills/assessment-summarizer/scripts/calculator.py`) that aggregates reviewer scores, maps risk values, and applies downgrade gates to generate a final recommendation (`APPROVED`, `APPROVED WITH IMPROVEMENTS`, `REQUIRES REVISION`, or `NOT APPROVED`).
+The framework uses an **Assessment Summarizer** skill that includes a standalone, deterministic utility (`skills/assessment-summarizer/scripts/calculator.py`) that aggregates reviewer scores, maps risk values, and applies downgrade gates to generate a final recommendation (`APPROVED`, `APPROVED WITH IMPROVEMENTS`, `REQUIRES REVISION`, or `NOT APPROVED`).
 
 >[Back to Top](#index)
 ---
@@ -265,6 +268,8 @@ The framework use a **Assessment Summarizer** skill, that includes a standalone,
 - **Design-Only Assessment**: Evaluates the skill's structure and instructions. This is highly cost-effective, consuming minimal tokens.
 - **Execution-Enabled Assessment** (includes `eval-reviewer`): Consumes a significantly larger volume of input tokens. This is because the execution logs, generated outputs, test suites, and validation evidence must be read and analyzed by the sub-agent.
 - **Scope and Windows Context**: A skill that is more complex in terms of design and logic will consume more tokens during the assessment; however, this does not mean that more lines of code automatically equate to higher consumption, as system prompts can be very long without being particularly complex, but keep your skill *under 500 lines of code* to avoid the assessment's context window to be over-consumed.
+- **One session by runtime**: To avoid the risk of context contamination or false positives/negatives, it is strongly recommended to assess isolated sessions; this means one skill assessment workflow per session, for new assessment, open a new chat session. This ensures that each skill is assessed in isolation, without interference from other evaluations.
+
 
 Resource Consumption Diagram
 
