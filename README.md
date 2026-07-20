@@ -171,7 +171,12 @@ sqaf skills/my-skill --eval y --non-interactive
 sqaf skills/my-skill --eval n --output reports/ --non-interactive
 ```
 >[Back to Top](#index)
+
+**Strongly recommended**: **DO NOT modify the orchestrator.md file or any other system prompt file in the framework**; doing so may cause the framework to not work as expected.
+
+
 ---
+
 ## System Prerequisites & LLM Dependency
 
 **IMPORTANT**
@@ -265,6 +270,7 @@ The framework use a **Assessment Summarizer** skill, that includes a standalone,
 - **Design-Only Assessment**: Evaluates the skill's structure and instructions. This is highly cost-effective, consuming minimal tokens.
 - **Execution-Enabled Assessment** (includes `eval-reviewer`): Consumes a significantly larger volume of input tokens. This is because the execution logs, generated outputs, test suites, and validation evidence must be read and analyzed by the sub-agent.
 - **Scope and Windows Context**: A skill that is more complex in terms of design and logic will consume more tokens during the assessment; however, this does not mean that more lines of code automatically equate to higher consumption, as system prompts can be very long without being particularly complex, but keep your skill *under 500 lines of code* to avoid the assessment's context window to be over-consumed.
+- **One session by runtime**: To avoid the risk of context contamination or false positives/negatives, it is strongly recommended to assess isolated sessions; this means one skill assessment workflow per session, for new assessment, open a new chat session. This ensures that each skill is assessed in isolation, without interference from other evaluations.
 
 Resource Consumption Diagram
 
