@@ -1,5 +1,5 @@
 # Skill Quality Assurance Framework (SQAF)
-[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](#)[![PyPI](https://img.shields.io/badge/PyPI-3775A9?logo=pypi&logoColor=fff)](#)[![Markdown](https://img.shields.io/badge/Markdown-%23000000.svg?logo=markdown&logoColor=white)](#)[![GNOME Terminal](https://img.shields.io/badge/GNOME%20Terminal-241F31?logo=gnometerminal&logoColor=fff)](#)[![PowerShell](https://custom-icon-badges.demolab.com/badge/PowerShell-5391FE?logo=powershell-white&logoColor=fff)](#)[![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=fff)](#)[![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](#)[![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=github-actions&logoColor=white)](#)[![Pytest](https://img.shields.io/badge/Pytest-fff?logo=pytest&logoColor=000)](#)[![Ruff](https://custom-icon-badges.demolab.com/badge/Ruff-261230.svg?logo=ruff-logo)](#)
+[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](#)[![PyPI](https://img.shields.io/badge/PyPI-3775A9?logo=pypi&logoColor=fff)](#)[![Markdown](https://img.shields.io/badge/Markdown-%23000000.svg?logo=markdown&logoColor=white)](#)[![GNOME Terminal](https://img.shields.io/badge/GNOME%20Terminal-241F31?logo=gnometerminal&logoColor=fff)](#)[![PowerShell](https://custom-icon-badges.demolab.com/badge/PowerShell-5391FE?logo=powershell-white&logoColor=fff)](#)[![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=fff)](#)[![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](#)[![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=github-actions&logoColor=white)](#)[![Pytest](https://img.shields.io/badge/Pytest-fff?logo=pytest&logoColor=000)](#)[![Ruff](https://custom-icon-badges.demolab.com/badge/Ruff-261230.svg?logo=ruff-logo)](#)[![Google Gemini](https://img.shields.io/badge/Google%20Gemini-886FBF?logo=googlegemini&logoColor=fff)](#)[![Claude](https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=fff)](#)[![ChatGPT](https://custom-icon-badges.demolab.com/badge/ChatGPT-74aa9c?logo=openai&logoColor=white)](#)[![Mistral AI](https://img.shields.io/badge/Mistral%20AI-FA520F?logo=mistral-ai&logoColor=fff)](#)[![Ollama](https://img.shields.io/badge/Ollama-fff?logo=ollama&logoColor=000)](#)[![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-000?logo=githubcopilot&logoColor=fff)](#)
 
 The **Skill Quality Assurance Framework (SQAF)**, a comprehensive user guidance and operational manual for evaluating the quality, structure, and execution of AI agent skills.
 
@@ -33,6 +33,7 @@ For deeper dives into the architectural definitions and development practices, r
 | [CLI User Guide](docs/cli_user_guide.md) | Installation, commands reference, usage modes, and agent integration notes for the `sqaf` CLI runner. |
 | [Test Component Description](docs/test_component_description.md) | A comprehensive explanation of testing strategies, mock behaviors, and environment isolation techniques used in the framework. |
 
+>[Back to Top](#index)
 ---
 ## The Core Problem & Solution Origin
 
@@ -54,6 +55,8 @@ The framework is built using industry best practices, drawing inspiration from r
 **Scope**: SKIIL Assessment on Skills-Base LLM Agents, this means skills systems prompts description **`SKILL.md`**, and skill running results.
 
 **Out of scope**: Skill efficiency in front of business scenarios. Skill RAG and external resorces, such as retrieved documents and knowledge bases, determinist scripts or static templates. 
+
+>[Back to Top](#index)
 
 ### Framwork Stack
 
