@@ -18,7 +18,7 @@ import pytest
 # Add the calculator script directory to sys.path so it can be imported directly.
 _SCRIPTS_DIR = Path(__file__).resolve().parent.parent / "skills" / "assessment-summarizer" / "scripts"
 sys.path.insert(0, str(_SCRIPTS_DIR))
-import calculator  # type: ignore  # noqa: E402
+import calculator  # type: ignore
 
 # ── Logging ────────────────────────────────────────────────────────────────────
 logging.basicConfig(level=logging.INFO, format="[TEST LOG] %(message)s", stream=sys.stderr)

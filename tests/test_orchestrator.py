@@ -147,27 +147,24 @@ class TestConfirmedTTY:
         session = make_session(tmp_path)
         renderer = MockRenderer(confirm_response=True)
         runner = OrchestratorRunner(session=session, renderer=renderer)
-        with patch("sqaf.orchestrator.trigger") as mock_trigger, patch.object(sys.stdout, "isatty", return_value=True):
-                with pytest.raises(SystemExit):
-                    runner.execute()
+        with patch("sqaf.orchestrator.trigger") as mock_trigger, patch.object(sys.stdout, "isatty", return_value=True), pytest.raises(SystemExit):
+                runner.execute()
         mock_trigger.assert_called_once_with(session)
 
     def test_exits_with_code_1(self, tmp_path):
         session = make_session(tmp_path)
         renderer = MockRenderer(confirm_response=True)
         runner = OrchestratorRunner(session=session, renderer=renderer)
-        with patch("sqaf.orchestrator.trigger"), patch.object(sys.stdout, "isatty", return_value=True):
-                with pytest.raises(SystemExit) as exc_info:
-                    runner.execute()
+        with patch("sqaf.orchestrator.trigger"), patch.object(sys.stdout, "isatty", return_value=True), pytest.raises(SystemExit) as exc_info:
+                runner.execute()
         assert exc_info.value.code == 1
 
     def test_no_agent_error_is_shown(self, tmp_path):
         session = make_session(tmp_path)
         renderer = MockRenderer(confirm_response=True)
         runner = OrchestratorRunner(session=session, renderer=renderer)
-        with patch("sqaf.orchestrator.trigger"), patch.object(sys.stdout, "isatty", return_value=True):
-                with pytest.raises(SystemExit):
-                    runner.execute()
+        with patch("sqaf.orchestrator.trigger"), patch.object(sys.stdout, "isatty", return_value=True), pytest.raises(SystemExit):
+                runner.execute()
         errors = [c for c in renderer.calls if c[0] == "error"]
         assert any("No assessment produced" in str(c) for c in errors)
 
@@ -175,9 +172,8 @@ class TestConfirmedTTY:
         session = make_session(tmp_path)
         renderer = MockRenderer(confirm_response=True)
         runner = OrchestratorRunner(session=session, renderer=renderer)
-        with patch("sqaf.orchestrator.trigger"), patch.object(sys.stdout, "isatty", return_value=True):
-                with pytest.raises(SystemExit):
-                    runner.execute()
+        with patch("sqaf.orchestrator.trigger"), patch.object(sys.stdout, "isatty", return_value=True), pytest.raises(SystemExit):
+                runner.execute()
         info_values = [c[2] for c in renderer.calls if c[0] == "info"]
         assert any("Run sqaf" in str(v) or "agent CLI" in str(v) for v in info_values)
 

@@ -15,7 +15,6 @@ from sqaf.ui.plain_renderer import PlainRenderer
 from sqaf.ui.renderer import get_renderer
 from sqaf.ui.rich_renderer import RichRenderer
 
-
 # ── Renderer Factory (get_renderer) ──────────────────────────────────────────
 
 class TestGetRenderer:

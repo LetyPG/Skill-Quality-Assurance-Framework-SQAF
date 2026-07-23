@@ -5,7 +5,6 @@ from pathlib import Path
 
 from sqaf.session import AssessmentSession
 
-
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def make_skill_dir(tmp_path: Path, name: str = "my-skill") -> str:

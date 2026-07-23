@@ -5,7 +5,6 @@ from pathlib import Path
 
 from sqaf.skills_discovery import discover_skills, skill_has_evals
 
-
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def make_skill(base: Path, name: str, with_eval_json: bool = False, with_evals_dir: bool = False) -> Path:

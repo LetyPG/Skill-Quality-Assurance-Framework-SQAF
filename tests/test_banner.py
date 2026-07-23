@@ -12,7 +12,6 @@ from unittest.mock import MagicMock, patch
 
 from sqaf.ui.banner import _TITLE, _VERSION, _figlet_text, render_banner
 
-
 # ── TTY detection ──────────────────────────────────────────────────────────────
 
 class TestTTYGating:

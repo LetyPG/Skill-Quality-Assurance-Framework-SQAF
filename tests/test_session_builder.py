@@ -13,7 +13,6 @@ import pytest
 
 from sqaf.session_builder import SessionBuilder
 
-
 # ── Mock renderer ──────────────────────────────────────────────────────────────
 
 class MockRenderer:

@@ -14,6 +14,8 @@ from __future__ import annotations
 import logging
 import sys
 
+_log = logging.getLogger(__name__)
+
 _FONT = "standard"
 _TITLE = "SQAF"
 _VERSION = "v1.0.0"
@@ -65,4 +67,4 @@ def render_banner() -> None:
 
     except Exception as exc:  # noqa: BLE001
         # Banner failure must never prevent framework execution.
-        logging.debug("Banner rendering failed (suppressed): %s", exc)
+        _log.debug("Banner rendering failed (suppressed): %s", exc)
