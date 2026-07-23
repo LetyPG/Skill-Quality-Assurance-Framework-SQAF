@@ -19,7 +19,6 @@ import pytest
 # Import _parse_args directly for unit tests
 from sqaf.cli import _parse_args
 
-
 # ── _parse_args unit tests ─────────────────────────────────────────────────────
 
 class TestParseArgs:
@@ -95,6 +94,7 @@ class TestMainSubprocess:
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,   # merge stderr into stdout
             text=True,
+            check=False,
         )
 
     def test_help_exits_zero(self):

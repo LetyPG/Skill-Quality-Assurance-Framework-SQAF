@@ -8,7 +8,9 @@ interactive (missing args, prompts answered via MockRenderer) paths.
 from __future__ import annotations
 
 from pathlib import Path
+
 import pytest
+
 from sqaf.session_builder import SessionBuilder
 
 

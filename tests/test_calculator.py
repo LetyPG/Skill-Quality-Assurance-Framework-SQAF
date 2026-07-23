@@ -31,12 +31,12 @@ class _Args:
     """Minimal namespace that mimics argparse output for calculator input."""
 
     def __init__(self, **kwargs):
-        defaults = dict(
-            intent_score=None, intent_risk=None,
-            instruction_score=None, instruction_risk=None,
-            qa_score=None, qa_risk=None,
-            execution_score=None, execution_risk=None,
-        )
+        defaults = {
+            "intent_score": None, "intent_risk": None,
+            "instruction_score": None, "instruction_risk": None,
+            "qa_score": None, "qa_risk": None,
+            "execution_score": None, "execution_risk": None,
+        }
         defaults.update(kwargs)
         for k, v in defaults.items():
             setattr(self, k, v)
@@ -208,7 +208,7 @@ class TestCLI:
             "--instruction-score", "85", "--instruction-risk", "MEDIUM",
             "--qa-score", "80", "--qa-risk", "LOW",
         ]
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(cmd, capture_output=True, text=True, check=False)
         assert result.returncode == 0, f"CLI exited with {result.returncode}: {result.stderr}"
 
         data = json.loads(result.stdout.strip())

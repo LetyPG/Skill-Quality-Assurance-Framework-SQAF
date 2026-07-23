@@ -11,6 +11,7 @@ Design constraints (from spec):
 """
 from __future__ import annotations
 
+import logging
 import sys
 
 _FONT = "standard"
@@ -23,7 +24,7 @@ def _figlet_text() -> str | None:
     try:
         from pyfiglet import Figlet  # type: ignore
         return Figlet(font=_FONT).renderText(_TITLE)
-    except Exception:
+    except ImportError:
         return None
 
 
@@ -62,6 +63,6 @@ def render_banner() -> None:
         )
         console.print()
 
-    except Exception:
+    except Exception as exc:  # noqa: BLE001
         # Banner failure must never prevent framework execution.
-        pass
+        logging.debug("Banner rendering failed (suppressed): %s", exc)

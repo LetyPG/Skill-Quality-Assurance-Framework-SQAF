@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+
 from sqaf.skills_discovery import discover_skills, skill_has_evals
 
 

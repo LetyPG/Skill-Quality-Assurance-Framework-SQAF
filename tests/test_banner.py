@@ -8,9 +8,9 @@ All tests verify the three core guarantees from the spec:
 """
 from __future__ import annotations
 
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
-from sqaf.ui.banner import render_banner, _figlet_text, _TITLE, _VERSION
+from sqaf.ui.banner import _TITLE, _VERSION, _figlet_text, render_banner
 
 
 # ── TTY detection ──────────────────────────────────────────────────────────────
@@ -57,14 +57,12 @@ class TestExceptionSafety:
 
     def test_rich_failure_is_swallowed(self):
         """If rich raises during banner rendering, execution must continue."""
-        with patch("sys.stdout.isatty", return_value=True):
-            with patch("sqaf.ui.banner._figlet_text", side_effect=RuntimeError("boom")):
+        with patch("sys.stdout.isatty", return_value=True), patch("sqaf.ui.banner._figlet_text", side_effect=RuntimeError("boom")):
                 render_banner()  # must not raise
 
     def test_console_print_failure_is_swallowed(self):
         """If Console.print raises, execution must continue."""
-        with patch("sys.stdout.isatty", return_value=True):
-            with patch("sqaf.ui.banner._figlet_text", return_value=None):
+        with patch("sys.stdout.isatty", return_value=True), patch("sqaf.ui.banner._figlet_text", return_value=None):
                 mock_console = MagicMock()
                 mock_console.return_value.print.side_effect = Exception("render error")
                 # Console is lazily imported inside render_banner, so patch at source
