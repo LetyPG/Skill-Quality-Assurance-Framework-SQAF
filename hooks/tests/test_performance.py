@@ -205,7 +205,13 @@ class TestDetectLanguage:
 
     def test_returns_english_on_exception(self):
         """Internal exceptions must not crash the hook."""
-        lang, confidence = detect_language("Hello there")
+        class FailingDict(dict):
+            def get(self, *args, **kwargs):
+                raise RuntimeError("Simulated failure")
+
+        with patch("hooks.sqaf_performance_hook._LINGUA_AVAILABLE", True), \
+             patch("hooks.sqaf_performance_hook._LINGUA_LANGUAGE_MAP", FailingDict()):
+            lang, confidence = detect_language("Hello there")
         assert lang == "English"
         assert confidence == 0.0
 
