@@ -23,10 +23,8 @@ Dependencies: stdlib only (no optional installs required).
 """
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
-from typing import Optional
 
 # Ensure project root is in sys.path when script is executed directly via python3
 project_root = str(Path(__file__).resolve().parent.parent)
@@ -73,7 +71,7 @@ INJECTION_PATTERNS: list[str] = [
 # Phase 3a — Prompt Size
 # ===========================================================================
 
-def check_prompt_size(prompt: str) -> Optional[str]:
+def check_prompt_size(prompt: str) -> str | None:
     """Block oversized prompts. Returns block reason or None."""
     size = len(prompt.encode("utf-8"))
     if size > MAX_PROMPT_BYTES:
@@ -91,7 +89,7 @@ def check_prompt_size(prompt: str) -> Optional[str]:
 # Phase 3b — Prompt Injection
 # ===========================================================================
 
-def check_prompt_injection(prompt: str) -> Optional[str]:
+def check_prompt_injection(prompt: str) -> str | None:
     """Block prompts containing known injection / override patterns."""
     import re
     for pattern in INJECTION_PATTERNS:
@@ -109,7 +107,7 @@ def check_prompt_injection(prompt: str) -> Optional[str]:
 # Phase 3c — Blocked Extensions
 # ===========================================================================
 
-def check_extension(filepath: str, blocked: frozenset[str]) -> Optional[str]:
+def check_extension(filepath: str, blocked: frozenset[str]) -> str | None:
     """Return a block reason if any suffix in the file path is blocked."""
     suffixes = [s.lower() for s in Path(filepath).suffixes]
     for suffix in suffixes:

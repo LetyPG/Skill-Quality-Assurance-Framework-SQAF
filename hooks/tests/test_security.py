@@ -8,8 +8,6 @@ Covers:
 """
 from __future__ import annotations
 
-from pathlib import Path
-
 import pytest
 
 from hooks.sqaf_security_hook import (
@@ -19,7 +17,6 @@ from hooks.sqaf_security_hook import (
     check_prompt_injection,
     check_prompt_size,
 )
-
 
 # ===========================================================================
 # Phase 3a — Prompt Size

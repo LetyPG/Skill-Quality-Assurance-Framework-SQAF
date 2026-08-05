@@ -8,7 +8,7 @@ Covers:
 """
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
@@ -24,7 +24,6 @@ from hooks.sqaf_performance_hook import (
     validate_eval_json,
     validate_skill_md,
 )
-
 
 # ===========================================================================
 # Phase 1 — SKILL.md Block
@@ -144,7 +143,7 @@ class TestValidateEvalJson:
         path2 = path1.replace("eval.json", "evals.json")
         from pathlib import Path as P
         P(path2).write_text("{}")
-        reason, path = validate_eval_json(
+        reason, _path = validate_eval_json(
             f"Assess with evals at {path1} and also {path2}"
         )
         assert reason is not None

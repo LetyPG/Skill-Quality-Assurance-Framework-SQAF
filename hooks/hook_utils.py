@@ -14,25 +14,21 @@ import json
 import sys
 import uuid
 from pathlib import Path
-from typing import List, Tuple
 
 from hooks.hook_contract import HookResult
-
 
 # ===========================================================================
 # Stdin / payload parsing
 # ===========================================================================
 
-def resolve_file_paths(tool_input: dict) -> List[str]:
+def resolve_file_paths(tool_input: dict) -> list[str]:
     """Extract file path strings from a tool_input dict."""
-    paths: List[str] = []
+    paths: list[str] = []
     for value in tool_input.values():
         if isinstance(value, str):
             candidate = value.strip()
             if (
-                candidate.startswith("/")
-                or candidate.startswith("./")
-                or candidate.startswith("../")
+                candidate.startswith(("/", "./", "../"))
                 or (len(candidate) < 512 and "." in Path(candidate).name)
             ):
                 paths.append(candidate)
@@ -43,7 +39,7 @@ def resolve_file_paths(tool_input: dict) -> List[str]:
     return paths
 
 
-def parse_stdin() -> Tuple[dict, List[str]]:
+def parse_stdin() -> tuple[dict, list[str]]:
     """
     Read the JSON payload from stdin.
 

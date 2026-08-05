@@ -11,8 +11,7 @@ SQAF additions: block_phase, skill_path, eval_path fields.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import List, Literal, Optional
-
+from typing import Literal
 
 # ---------------------------------------------------------------------------
 # HookExtensions — backward-compatible optional policy overrides.
@@ -22,8 +21,8 @@ from typing import List, Literal, Optional
 @dataclass
 class HookExtensions:
     """Optional policy overrides passed from .agent/settings.json at runtime."""
-    allowed_extensions: List[str] = field(default_factory=list)
-    blocked_patterns: List[str] = field(default_factory=list)
+    allowed_extensions: list[str] = field(default_factory=list)
+    blocked_patterns: list[str] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -36,9 +35,9 @@ class HookExtensions:
 class HookContext:
     """Input to every hook invocation."""
     user_prompt: str
-    input_files: List[str]
-    runtime_config: Optional[dict] = None
-    extensions: Optional[HookExtensions] = None
+    input_files: list[str]
+    runtime_config: dict | None = None
+    extensions: HookExtensions | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -58,17 +57,17 @@ class HookResult:
     trace_id: str
 
     # ── Block metadata (when execute_workflow is False) ────────────────────────
-    risk_level: Optional[Literal["low", "medium", "high"]] = None
-    block_reason: Optional[str] = None
-    block_phase: Optional[Literal["SKILL_MD", "EVAL_JSON", "SECURITY", "SIZE"]] = None
+    risk_level: Literal["low", "medium", "high"] | None = None
+    block_reason: str | None = None
+    block_phase: Literal["SKILL_MD", "EVAL_JSON", "SECURITY", "SIZE"] | None = None
 
     # ── Allow enrichment (when execute_workflow is True) ──────────────────────
-    skill_path: Optional[str] = None        # Validated absolute SKILL.md path
-    eval_path: Optional[str] = None         # Validated eval.json path (if present)
-    language: Optional[str] = None
-    confidence: Optional[float] = None
-    language_rule: Optional[str] = None
-    sanitized_context: Optional[dict] = None
+    skill_path: str | None = None        # Validated absolute SKILL.md path
+    eval_path: str | None = None         # Validated eval.json path (if present)
+    language: str | None = None
+    confidence: float | None = None
+    language_rule: str | None = None
+    sanitized_context: dict | None = None
 
     def to_dict(self) -> dict:
         """Serialise to a plain dict for JSON emission to stdout."""

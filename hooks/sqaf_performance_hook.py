@@ -43,9 +43,9 @@ Dependencies:
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
-from typing import Optional, Tuple
 
 # Ensure project root is in sys.path when script is executed directly via python3
 project_root = str(Path(__file__).resolve().parent.parent)
@@ -64,12 +64,6 @@ from hooks.hook_utils import (
 # ---------------------------------------------------------------------------
 # Optional imports — graceful degradation
 # ---------------------------------------------------------------------------
-
-try:
-    import magic  # type: ignore[import-untyped]
-    _MAGIC_AVAILABLE = True
-except ImportError:
-    _MAGIC_AVAILABLE = False
 
 try:
     from lingua import Language, LanguageDetectorBuilder  # type: ignore[import-untyped]
@@ -100,8 +94,6 @@ BLOCKED_MIME_PREFIXES: tuple[str, ...] = (
 # ---------------------------------------------------------------------------
 # Input patterns
 # ---------------------------------------------------------------------------
-
-import re  # noqa: E402 — imported here to keep constants grouped above
 
 SKILL_PATH_PATTERN = re.compile(
     r"((?:/[\w.\-]+)+/SKILL\.md)",
@@ -166,7 +158,7 @@ _LINGUA_LANGUAGE_MAP: dict[str, str] = {
 # Phase 1 — SKILL.md Block
 # ===========================================================================
 
-def validate_skill_md(prompt: str) -> Tuple[Optional[str], Optional[str]]:
+def validate_skill_md(prompt: str) -> tuple[str | None, str | None]:
     """
     Validate the SKILL.md reference in the user prompt.
 
@@ -178,18 +170,22 @@ def validate_skill_md(prompt: str) -> Tuple[Optional[str], Optional[str]]:
     # 1a: single-skill guard
     if len(matches) == 0:
         return (
-            "No SKILL.md path found in the request.\n\n"
-            "SQAF requires exactly one absolute skill path.\n"
-            "Required format:\n"
-            "  Assess the quality of the following skill: "
-            "/absolute/path/to/skill/SKILL.md",
+            (
+                "No SKILL.md path found in the request.\n\n"
+                "SQAF requires exactly one absolute skill path.\n"
+                "Required format:\n"
+                "  Assess the quality of the following skill: "
+                "/absolute/path/to/skill/SKILL.md"
+            ),
             None,
         )
     if len(matches) > 1:
         return (
-            f"Multiple skill paths detected ({len(matches)} SKILL.md references).\n\n"
-            "SQAF processes exactly one skill per assessment request.\n"
-            "Please submit separate requests for each skill.",
+            (
+                f"Multiple skill paths detected ({len(matches)} SKILL.md references).\n\n"
+                "SQAF processes exactly one skill per assessment request.\n"
+                "Please submit separate requests for each skill."
+            ),
             None,
         )
 
@@ -198,9 +194,11 @@ def validate_skill_md(prompt: str) -> Tuple[Optional[str], Optional[str]]:
     # 1b: absolute path
     if not skill_path.startswith("/"):
         return (
-            f"Skill path must be absolute (starting with '/').\n"
-            f"Received: '{skill_path}'\n\n"
-            "Example: /home/user/my-project/skills/my-skill/SKILL.md",
+            (
+                f"Skill path must be absolute (starting with '/').\n"
+                f"Received: '{skill_path}'\n\n"
+                "Example: /home/user/my-project/skills/my-skill/SKILL.md"
+            ),
             None,
         )
 
@@ -212,8 +210,10 @@ def validate_skill_md(prompt: str) -> Tuple[Optional[str], Optional[str]]:
     p = Path(skill_path)
     if not p.exists():
         return (
-            f"SKILL.md not found on disk: '{skill_path}'\n\n"
-            "Verify the path is correct and the skill directory exists.",
+            (
+                f"SKILL.md not found on disk: '{skill_path}'\n\n"
+                "Verify the path is correct and the skill directory exists."
+            ),
             None,
         )
     if not p.is_file():
@@ -224,9 +224,11 @@ def validate_skill_md(prompt: str) -> Tuple[Optional[str], Optional[str]]:
     if size > MAX_SKILL_MD_BYTES:
         size_kb = size / 1024
         return (
-            f"SKILL.md exceeds the 500 KB size limit ({size_kb:.1f} KB).\n\n"
-            "Split large reference material into separate files loaded "
-            "via progressive disclosure.",
+            (
+                f"SKILL.md exceeds the 500 KB size limit ({size_kb:.1f} KB).\n\n"
+                "Split large reference material into separate files loaded "
+                "via progressive disclosure."
+            ),
             None,
         )
 
@@ -237,7 +239,7 @@ def validate_skill_md(prompt: str) -> Tuple[Optional[str], Optional[str]]:
 # Phase 2 — eval.json Block
 # ===========================================================================
 
-def validate_eval_json(prompt: str) -> Tuple[Optional[str], Optional[str]]:
+def validate_eval_json(prompt: str) -> tuple[str | None, str | None]:
     """
     Validate the eval.json reference in the user prompt.
     Skipped entirely if eval.json is not referenced.
@@ -253,8 +255,10 @@ def validate_eval_json(prompt: str) -> Tuple[Optional[str], Optional[str]]:
 
     if len(matches) > 1:
         return (
-            f"Multiple eval.json paths detected ({len(matches)}).\n\n"
-            "Provide at most one eval.json per assessment request.",
+            (
+                f"Multiple eval.json paths detected ({len(matches)}).\n\n"
+                "Provide at most one eval.json per assessment request."
+            ),
             None,
         )
 
@@ -263,8 +267,10 @@ def validate_eval_json(prompt: str) -> Tuple[Optional[str], Optional[str]]:
     # 2a: absolute path
     if not eval_path.startswith("/"):
         return (
-            f"eval.json path must be absolute (starting with '/').\n"
-            f"Received: '{eval_path}'",
+            (
+                f"eval.json path must be absolute (starting with '/').\n"
+                f"Received: '{eval_path}'"
+            ),
             None,
         )
 
@@ -272,9 +278,11 @@ def validate_eval_json(prompt: str) -> Tuple[Optional[str], Optional[str]]:
     p = Path(eval_path)
     if not p.exists() or not p.is_file():
         return (
-            f"eval.json not found on disk: '{eval_path}'\n\n"
-            "Verify the path is correct or omit the eval reference "
-            "if not running execution review.",
+            (
+                f"eval.json not found on disk: '{eval_path}'\n\n"
+                "Verify the path is correct or omit the eval reference "
+                "if not running execution review."
+            ),
             None,
         )
 
@@ -284,8 +292,10 @@ def validate_eval_json(prompt: str) -> Tuple[Optional[str], Optional[str]]:
             json.load(f)
     except json.JSONDecodeError as exc:
         return (
-            f"eval.json is not valid JSON: {exc}\n\n"
-            "Fix the eval.json file before requesting execution review.",
+            (
+                f"eval.json is not valid JSON: {exc}\n\n"
+                "Fix the eval.json file before requesting execution review."
+            ),
             None,
         )
 
@@ -294,8 +304,10 @@ def validate_eval_json(prompt: str) -> Tuple[Optional[str], Optional[str]]:
     if size > MAX_EVAL_JSON_BYTES:
         size_mb = size / (1024 * 1024)
         return (
-            f"eval.json exceeds the 5 MB size limit ({size_mb:.2f} MB).\n\n"
-            "Consider splitting evaluation definitions into smaller files.",
+            (
+                f"eval.json exceeds the 5 MB size limit ({size_mb:.2f} MB).\n\n"
+                "Consider splitting evaluation definitions into smaller files."
+            ),
             None,
         )
 
@@ -306,7 +318,7 @@ def validate_eval_json(prompt: str) -> Tuple[Optional[str], Optional[str]]:
 # Phase 4 — Language Detection
 # ===========================================================================
 
-def detect_language(text: str) -> Tuple[str, float]:
+def detect_language(text: str) -> tuple[str, float]:
     """
     Detect the language of the user prompt using lingua (offline).
 
@@ -363,7 +375,7 @@ def build_allow_result(
     context: HookContext,
     trace_id: str,
     skill_path: str,
-    eval_path: Optional[str],
+    eval_path: str | None,
 ) -> HookResult:
     """
     Build the final enriched HookResult — the orchestrator contract.
