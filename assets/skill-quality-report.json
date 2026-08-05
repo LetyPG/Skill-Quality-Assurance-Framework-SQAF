@@ -3,6 +3,7 @@
     "framework": "skill-quality-assurance-framework",
     "skill_name": "",
     "report_timestamp": "",
+    "assessment_run_id": "",
     "workflow_health": "PASS"
   },
   "assessment_summary": {
@@ -16,7 +17,7 @@
     "intent_review": "COMPLETED",
     "instruction_review": "COMPLETED",
     "qa_review": "COMPLETED",
-    "eval_review": "COMPLETED"
+    "eval_review": "SKIPPED"
   },
   "validation_summary": {
     "missing_artifacts": [],
@@ -32,7 +33,7 @@
     "execution_time_seconds": 0
   },
   "assessment_artifacts": {
-    "skill_assessment": "assessment/skill-assessment.json",
-    "eval_assessment": "assessment/eval-assessment.json"
+    "skill_assessment": "<SKILL-NAME>-assessment/skill-assessment.json",
+    "eval_assessment": null
   }
 }

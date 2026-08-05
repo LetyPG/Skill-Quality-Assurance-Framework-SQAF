@@ -24,3 +24,8 @@ sqaf.egg-info/
 # Environment variables
 .env
 .env.local
+
+
+# Eval synthetic
+
+.evals/

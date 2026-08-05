@@ -51,7 +51,7 @@ You only coordinate and validate the subagents workflow for he skill assessment,
   - Skills are identified by their skill name (e.g., skill-name.md, eval.json, skill-outputs/)
   - If any assessment input precondition setup as mandatory is missing you must inform the user an request the information. Otherwise you must inform that the assessment can not proceed due to risk errors, such as hallucination and no objective analyze over skill design and execution.
   - Verify if `framework-assessment/` or `assessment/` directory exist within the working directory, if not create one of them, this folder will be use to storage the assessment results for the current user only.
-2. You must create a `<SKILL-NAME>-assessment/` directory within `../framework-assessment/` directory to store the results of each new skill assessment requested by the user, so every subagent should store its assessment artifact in the same directory.
+2. You must create a `<SKILL-NAME>-assessment/` directory within `../framework-assessment/` directory to store the results of each new skill assessment **only after the Re-Assessment Guard check passes** (see ## Re-Assessment Guard). Every subagent stores its assessment artifact in the same directory.
    - You must provide the absolute path to the subagents for storing their assessment artifacts.
 3. You will trigger all reviewers subagents independently and in parallel.
 4. The subagents are isolated, meaning:
@@ -80,6 +80,47 @@ The User must deliver the input artifacts when invoking the orchestrator.
 The user must include the skill path to be assessed and provide a clear prompt requesting the assessment to the orchestrator. Example `Asses the quality of the following skill: ./<SKILL-NAME>/SKILL.md`
 The orhcestrator must request the user to provide the complete path to the skill directory to be assessed. 
 It keeps strictly prohibited  to execute the workflow without the complete skill path.
+
+## Re-Assessment Guard
+
+Before creating the `<SKILL-NAME>-assessment/` directory, the Orchestrator **must** verify whether it already exists inside `framework-assessment/`.
+
+**If the folder does NOT exist:** proceed normally with folder creation and the assessment workflow.
+
+**If the folder already exists**, the Orchestrator **must**:
+1. Stop the workflow immediately.
+2. Inform the user with the following message:
+
+```txt
+⚠️  Re-Assessment Detected
+
+The assessment directory already exists:
+  framework-assessment/<SKILL-NAME>-assessment/
+
+Running the workflow again will overwrite all existing artifacts,
+including the final quality report and all reviewer outputs.
+
+Options:
+  A) Confirm overwrite  — type: CONFIRM OVERWRITE
+  B) Archive & re-run   — type: ARCHIVE AND REASSESS
+  C) Abort              — type: ABORT
+
+Please choose an option to continue.
+```
+
+3. Wait for explicit user confirmation before proceeding.
+
+**Confirmation handling:**
+
+| User Response | Action |
+|---|---|
+| `CONFIRM OVERWRITE` | Proceed with assessment. Existing artifacts will be overwritten. |
+| `ARCHIVE AND REASSESS` | Rename the existing folder to `<SKILL-NAME>-assessment_<ISO-TIMESTAMP>/` (e.g., `data-pipeline-etl-assessment_20260805T194500Z/`). Then create a new `<SKILL-NAME>-assessment/` folder and proceed. |
+| `ABORT` | Stop the workflow. Do not modify any existing artifact. |
+
+**Default (no response / ambiguous):** Treat as `ABORT`.
+
+---
 
 ## Communication Model
 

@@ -9,7 +9,8 @@
 |----------|-------|
 | Skill | |
 | Framework | Skill Quality Assurance Framework |
-| Assessment Date |{timestamp-UTC} |
+| Assessment Date | {timestamp-UTC} |
+| Assessment Run ID | {assessment_run_id} |
 | Workflow Health | PASS / INCOMPLETE / FAIL |
 | Overall Recommendation | |
 
@@ -42,7 +43,7 @@
 | Intent Reviewer | | | |
 | Instruction Reviewer | | | |
 | QA Reviewer | | | |
-| Eval Results Reviewer | | | |
+| Eval Results Reviewer | SKIPPED / COMPLETED | | |
 
 ---
 
@@ -160,6 +161,6 @@ Validation Errors:
 | Artifact | Location |
 |----------|----------|
 | Skill Assessment | Specific `<SKILL-NAME>-assessment/skill-quality-report.json` |
-| Eval Assessment | In case eval results are available. Specific `<SKILL-NAME>-assessment/eval-review.json` |
+| Eval Assessment | `<SKILL-NAME>-assessment/eval-review.json` if `COMPLETED`, otherwise `N/A` |
 | Skill Assessment Execitive Report | Specific `<SKILL-NAME>-assessment/skill-quality-report.md` |
 
