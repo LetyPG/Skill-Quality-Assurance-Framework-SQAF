@@ -1,0 +1,1 @@
+"""SQAF hook test suite."""

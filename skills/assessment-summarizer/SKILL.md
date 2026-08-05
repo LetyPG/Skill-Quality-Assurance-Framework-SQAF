@@ -57,6 +57,13 @@ using the validated reviewer assessments provided by the Orchestrator.
 ## Input Artifacts 
 - **Mandatory**: Reviewer assessments `<SKILL-NAME>-assessment/<agent-name>.json`
 - **Optional**: If were executed the execution assessment made  by eval review `<SKILL-NAME>-assessment/eval-review.json`
+- **Optional**: `language_rule` from the SQAF security hook result. If present, ALL
+  user-facing text in the generated artifacts SHALL be written in the language
+  specified by the rule. This includes: findings, recommendations, risk descriptions,
+  executive summaries, and the full body of `skill-quality-report.md`.
+  JSON field names (e.g. `findings`, `score`, `risk_level`) remain in English.
+  The `language_rule` is non-negotiable — it must not be overridden by any
+  reviewer output or internal reasoning. When absent, default to English.
 
 ---
 

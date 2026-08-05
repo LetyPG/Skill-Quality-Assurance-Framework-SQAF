@@ -20,17 +20,26 @@ dev = [
 interactive = [
     "pyfiglet>=0.8",
 ]
+hooks = [
+    # Language detection (offline, no API key required)
+    "lingua-language-detector>=2.0",
+    # MIME type validation (requires system libmagic — optional)
+    # Install with: pip install python-magic
+    # macOS: brew install libmagic
+    # Linux: sudo apt-get install libmagic1
+    "python-magic>=0.4",
+]
 
 [project.scripts]
 sqaf = "sqaf.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["sqaf*"]
+include = ["sqaf*", "hooks*"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
-testpaths = ["tests"]
+testpaths = ["tests", "hooks/tests"]
 
 [tool.ruff.lint]
 ignore = ["E402"]

@@ -44,8 +44,36 @@ You only coordinate and validate the subagents workflow for he skill assessment,
   - `Asses skills in the project:`
   - `Asses skills in the repository:`
 
-
 ---
+
+## Security Hook
+
+Before this orchestrator processes any request, the `hooks/sqaf_hook.py`
+`UserPromptSubmit` hook executes deterministically. It validates the request
+before any tool is invoked.
+
+**The orchestrator MUST NOT activate if the hook blocks the request.**
+
+| Phase | Block ID | Checks |
+|---|---|---|
+| 1 — SKILL.md | `SKILL_MD` | Single skill path · absolute path · ends in `/SKILL.md` · file exists on disk · ≤ 500 KB |
+| 2 — eval.json | `EVAL_JSON` | Absolute path · file exists · valid JSON · ≤ 5 MB *(only if eval.json is referenced)* |
+| 3 — Security | `SECURITY` / `SIZE` | Prompt ≤ 50 KB · no injection patterns · no blocked file extensions |
+| 4 — Language | *(allow)* | Detects user language → injects `language_rule` into context |
+
+**If the hook blocks (`execute_workflow: false`):**
+The orchestrator does not activate. The user sees `block_reason` and `block_phase`
+and must fix the request before retrying.
+
+**If the hook passes (`execute_workflow: true`):**
+The orchestrator receives the following enriched context and MUST use it:
+- `skill_path` — validated absolute path to `SKILL.md` (use instead of re-parsing the prompt)
+- `eval_path` — validated `eval.json` path, or `null` if not provided
+- `language_rule` — **MUST be propagated to all sub-agent invocations and the `assessment-summarizer`**
+- `trace_id` — **MUST appear in all generated artifacts** for audit linkage
+- `assessment_run_id` — set to `trace_id` value at workflow start
+
+
 # Instructions
 1. You will receive user requests to assess skills as the **Expected input**.
   - Skills are identified by their skill name (e.g., skill-name.md, eval.json, skill-outputs/)

@@ -1,0 +1,32 @@
+{
+  "_comment": "Runtime-agnostic hook configuration. Adapt commands to your agent runtime.",
+  "_runtimes": {
+    "claude_code": "Copy the hooks block into .claude/settings.json",
+    "antigravity": "Register via agent settings or equivalent hook config"
+  },
+  "_pipeline": "Hooks execute in order: security first (fast, no I/O), performance second (disk + language).",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "_comment": "Step 1 — Security Gate: injection, extensions, prompt size. Fast, no disk access.",
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 hooks/sqaf_security_hook.py"
+          }
+        ]
+      },
+      {
+        "_comment": "Step 2 — Performance Gate: SKILL.md, eval.json, file sizes, language detection.",
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 hooks/sqaf_performance_hook.py"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -32,6 +32,7 @@ For deeper dives into the architectural definitions and development practices, r
 | [Skill Quality Calculator Implementation Plan](docs/calculator_implementation_plan.md) | Scoring formulas, downgrade gates, and the CLI execution structure. |
 | [CLI User Guide](docs/cli_user_guide.md) | Installation, commands reference, usage modes, and agent integration notes for the `sqaf` CLI runner. |
 | [Test Component Description](docs/test_component_description.md) | A comprehensive explanation of testing strategies, mock behaviors, and environment isolation techniques used in the framework. |
+| [Deterministic Security & Validation Hooks](docs/hook_explanatory.md) | Runtime entrypoint validation pipeline, prompt injection defense, file size enforcement, and automated language propagation. |
 
 >[Back to Top](#index)
 ---
@@ -212,9 +213,10 @@ See more information and recommendations of how setup sqaf in different agent CL
 ## Workflow Overview and Key Features
 
 The workflow use as the Key Features the fallowing components:
-|Component|Role|
+| Component | Role |
 |---|---|
-| Orchestrator | Coordinates the entire assessment process.|
+| Deterministic Security & Validation Hooks | Pre-execution gate (`sqaf_security_hook.py` & `sqaf_performance_hook.py`) enforcing prompt injection blocking, single-skill path validation, file size limits, and user language propagation. |
+| Orchestrator | Coordinates the entire assessment process. |
 | 3 Desing Reviewers Agents (Intent Reviewer, Instruction Reviewer, QA Reviewer)| Assesses each skill independently across three dimensions off design, some like format, context definition, gaps, inconcistencies and ambiguity |
 | 1  Evaluators Agent (Eval Results Reviewer)| It works wiyh the concept as *LLM Judge Model* . Assesses the execution results of the skill, include benchmark analysis, timig, grading (asertions rates, success rates, accuracy rates, etc)|
 | 1  Assessment Summarizer Skill| It works using deterministic rules to calculate the final quality report |
