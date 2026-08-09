@@ -44,8 +44,9 @@
   <!-- Marked.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Mermaid.js CDN -->
+  <!-- Mermaid.js CDN con Fallback -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>window.mermaid || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"><\/script>')</script>
 
   <!-- Highlight.js CDN & Dynamic Theme CSS -->
   <link id="hljs-theme-light" rel="stylesheet"
@@ -115,7 +116,7 @@
       <!-- Brand Title & Badge -->
       <div class="flex items-center space-x-3">
         <div
-          class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-blue-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+          class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -142,10 +143,11 @@
           <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor"
             viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
           <!-- Icono Luna (para activar tema oscuro) -->
-          <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor"
+            viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
           </svg>
@@ -277,7 +279,7 @@
         }
       }
 
-      // Re-render Mermaid diagrams with updated theme if already present
+      // Re-render Mermaid diagrams with updated theme if present
       updateMermaidTheme(theme);
     }
 
@@ -298,62 +300,70 @@
     });
 
     /**
-     * INTEGRACIÓN Y CONFIGURACIÓN DE MERMAID.JS
+     * INTEGRACIÓN ROBUSTA DE MARKED.JS Y MERMAID.JS
      */
-    function initMermaid(theme) {
-      if (typeof mermaid === 'undefined') return;
+    // Personalizar el renderizado de bloques de código en Marked.js para Mermaid
+    const customRenderer = new marked.Renderer();
+    const defaultCodeRenderer = customRenderer.code.bind(customRenderer);
+
+    customRenderer.code = function(code, language, escaped) {
+      if (language === 'mermaid') {
+        // Desescapar entidades HTML para asegurar sintaxis limpia en Mermaid
+        const cleanCode = code
+          .replace(/&amp;/g, '&')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'");
+
+        return `<div class="mermaid-container bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-6 my-6 flex justify-center overflow-x-auto" data-mermaid-src="${encodeURIComponent(cleanCode)}"></div>`;
+      }
+      return defaultCodeRenderer(code, language, escaped);
+    };
+
+    marked.use({ renderer: customRenderer });
+
+    // Esperar a que la librería de Mermaid esté completamente disponible en el navegador
+    async function ensureMermaidLoaded() {
+      if (typeof mermaid !== 'undefined') return true;
+      for (let i = 0; i < 30; i++) {
+        await new Promise(r => setTimeout(r, 100));
+        if (typeof mermaid !== 'undefined') return true;
+      }
+      return false;
+    }
+
+    async function updateMermaidTheme(theme) {
+      const isLoaded = await ensureMermaidLoaded();
+      if (!isLoaded) {
+        console.warn('La librería Mermaid.js no se cargó correctamente.');
+        return;
+      }
+
+      const containers = contentElement.querySelectorAll('.mermaid-container');
+      if (containers.length === 0) return;
+
       mermaid.initialize({
         startOnLoad: false,
         theme: theme === 'dark' ? 'dark' : 'default',
         securityLevel: 'loose',
         fontFamily: 'Inter, sans-serif'
       });
-    }
-
-    async function renderMermaidDiagrams(theme) {
-      if (typeof mermaid === 'undefined') return;
-
-      const codeBlocks = contentElement.querySelectorAll('pre code.language-mermaid, pre code.mermaid');
-      if (codeBlocks.length === 0) return;
-
-      // Transform code blocks into mermaid container elements
-      codeBlocks.forEach((codeBlock, idx) => {
-        const preElement = codeBlock.parentElement;
-        const mermaidText = codeBlock.textContent;
-
-        const container = document.createElement('div');
-        container.className = 'mermaid-container bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm';
-        container.id = `mermaid-container-${idx}`;
-        container.setAttribute('data-mermaid-src', mermaidText);
-
-        preElement.replaceWith(container);
-      });
-
-      await updateMermaidTheme(theme);
-    }
-
-    async function updateMermaidTheme(theme) {
-      if (typeof mermaid === 'undefined') return;
-
-      const containers = contentElement.querySelectorAll('.mermaid-container');
-      if (containers.length === 0) return;
-
-      initMermaid(theme);
 
       for (let i = 0; i < containers.length; i++) {
         const container = containers[i];
-        const src = container.getAttribute('data-mermaid-src');
-        if (!src) continue;
+        const encodedSrc = container.getAttribute('data-mermaid-src');
+        if (!encodedSrc) continue;
 
+        const rawSrc = decodeURIComponent(encodedSrc);
         const renderId = `mermaid-svg-${i}-${Date.now()}`;
         try {
-          // Reset innerHTML before rendering to avoid collisions
           container.innerHTML = '';
-          const { svg } = await mermaid.render(renderId, src);
+          const { svg } = await mermaid.render(renderId, rawSrc);
           container.innerHTML = svg;
         } catch (err) {
           console.error('Error rendering Mermaid diagram:', err);
-          container.innerHTML = `<pre class="text-xs text-red-500 font-mono overflow-x-auto p-4">${src}</pre>`;
+          container.innerHTML = `<pre class="text-xs text-red-500 font-mono overflow-x-auto p-4">${rawSrc}</pre>`;
         }
       }
     }
@@ -383,7 +393,7 @@
       let markdownText = null;
       let lastError = null;
 
-      // 1. Intentar cargar por ruta relativa por defecto (GitHub Pages / Servidor Web local)
+      // 1. Intentar cargar por ruta relativa por defecto (Servidor Web local)
       try {
         const response = await fetch(CONFIG.README_PATH);
         if (response.ok) {
@@ -396,7 +406,7 @@
         lastError = err;
       }
 
-      // 2. Fallback: Intentar cargar desde URL Raw de GitHub si falla la ruta relativa
+      // 2. Fallback: Intentar cargar desde URL Raw de GitHub si falla la ruta relativa (GitHub Pages)
       if (!markdownText) {
         try {
           const response = await fetch(rawGithubUrl);
@@ -413,21 +423,18 @@
 
       // Renderizar o mostrar error
       if (markdownText) {
-        // Convertir Markdown a HTML
+        // Convertir Markdown a HTML usando el renderizador personalizado de Marked.js
         const htmlContent = marked.parse(markdownText);
         contentElement.innerHTML = htmlContent;
 
-        // Renderizar diagramas Mermaid en SVG
-        await renderMermaidDiagrams(currentTheme);
-
-        // Resaltado de sintaxis con Highlight.js
+        // Resaltado de sintaxis con Highlight.js (para bloques de código normales)
         hljs.highlightAll();
 
         // Mostrar contenido
         loadingState.classList.add('hidden');
         contentElement.classList.remove('hidden');
 
-        // Aplicar clase de tema inicial
+        // Renderizar diagramas Mermaid y aplicar tema actual
         applyTheme(currentTheme);
       } else {
         loadingState.classList.add('hidden');

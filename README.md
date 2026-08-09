@@ -213,6 +213,7 @@ See more information and recommendations of how setup sqaf in different agent CL
 ## Workflow Overview and Key Features
 
 The workflow use as the Key Features the fallowing components:
+
 | Component | Role |
 |---|---|
 | Deterministic Security & Validation Hooks | Pre-execution gate (`sqaf_security_hook.py` & `sqaf_performance_hook.py`) enforcing prompt injection blocking, single-skill path validation, file size limits, and user language propagation. |
