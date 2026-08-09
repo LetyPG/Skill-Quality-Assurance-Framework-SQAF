@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Quality Assurance Framework - Documentación</title>
+  <meta name="description"
+    content="Documentación oficial del Skill Quality Assurance Framework (SQAF). Marco automatizado para la evaluación de calidad de skills de IA.">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN con Plugin Typography -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Marked.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Mermaid.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+  <!-- Highlight.js CDN & Dynamic Theme CSS -->
+  <link id="hljs-theme-light" rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <link id="hljs-theme-dark" rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" disabled>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.4);
+      border-radius: 9999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(156, 163, 175, 0.6);
+    }
+
+    /* Fix Tailwind typography display:block reset for inline badges */
+    .prose p img,
+    .prose a img {
+      display: inline-block !important;
+      margin-top: 0.25rem !important;
+      margin-bottom: 0.25rem !important;
+      margin-left: 0.125rem !important;
+      margin-right: 0.125rem !important;
+      vertical-align: middle;
+    }
+
+    /* Mermaid Diagram Container styling */
+    .mermaid-container {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .mermaid-container svg {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased">
+
+  <!-- Header Sticky con Glassmorphism -->
+  <header
+    class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
+      <!-- Brand Title & Badge -->
+      <div class="flex items-center space-x-3">
+        <div
+          class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-blue-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <div>
+          <h1
+            class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            Skill Quality Assurance Framework
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-700/50">
+              Docs
+            </span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- Controls & Links -->
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" type="button" aria-label="Alternar tema"
+          class="p-2 rounded-lg text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <!-- Icono Sol (para activar tema claro) -->
+          <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Icono Luna (para activar tema oscuro) -->
+          <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+
+        <!-- GitHub Repo Button -->
+        <a id="github-link" href="#" target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white rounded-lg shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-slate-400">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+          </svg>
+          <span class="hidden sm:inline">Ver en GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+    <!-- State: Loading Animation / Skeleton -->
+    <div id="loading-state" class="space-y-6 animate-pulse">
+      <div class="h-10 bg-slate-200 dark:bg-slate-800 rounded-md w-3/4"></div>
+      <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
+      <div class="space-y-3 pt-6">
+        <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-full"></div>
+        <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-5/6"></div>
+        <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-4/6"></div>
+      </div>
+      <div class="h-48 bg-slate-200 dark:bg-slate-800 rounded-xl w-full mt-6"></div>
+    </div>
+
+    <!-- State: Error Container -->
+    <div id="error-state"
+      class="hidden my-12 p-6 sm:p-8 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 rounded-2xl text-center space-y-4">
+      <div
+        class="w-12 h-12 mx-auto rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-red-600 dark:text-red-400">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <h2 class="text-xl font-bold text-red-900 dark:text-red-200">Error al cargar la documentación</h2>
+      <p id="error-message" class="text-sm text-red-700 dark:text-red-300 max-w-lg mx-auto">
+        No se pudo obtener el archivo README.md. Verifica la ruta o la conexión a internet.
+      </p>
+      <button onclick="loadMarkdown()"
+        class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg shadow transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        Reintentar
+      </button>
+    </div>
+
+    <!-- State: Markdown Render Target -->
+    <article id="content"
+      class="hidden prose prose-slate dark:prose-invert max-w-none prose-headings:scroll-mt-20 prose-headings:font-bold prose-a:text-brand-600 dark:prose-a:text-brand-400 hover:prose-a:underline prose-code:font-mono prose-code:text-sm prose-pre:bg-slate-900 dark:prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-800 prose-pre:rounded-xl shadow-none">
+    </article>
+
+  </main>
+
+  <!-- Footer -->
+  <footer
+    class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 py-6 transition-colors duration-300">
+    <div
+      class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+      <p>© Skill Quality Assurance Framework (SQAF). Desplegado dinámicamente en GitHub Pages.</p>
+      <div class="flex items-center space-x-4">
+        <a href="#top" class="hover:text-slate-700 dark:hover:text-slate-200 transition-colors">Volver arriba ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script de Configuración y Lógica Dinámica -->
+  <script>
+    /**
+     * CONFIGURACIÓN DE VARIABLES DEL PROYECTO
+     */
+    const CONFIG = {
+      USERNAME: 'LetyPG',
+      REPO: 'skill-quality-assurance-framework',
+      BRANCH: 'main',
+      README_PATH: '../README.md'
+    };
+
+    // Actualizar link de GitHub en el header
+    const repoUrl = `https://github.com/${CONFIG.USERNAME}/${CONFIG.REPO}`;
+    document.getElementById('github-link').href = repoUrl;
+
+    /**
+     * GESTIÓN DE TEMA (DARK / LIGHT MODE)
+     */
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const hljsLight = document.getElementById('hljs-theme-light');
+    const hljsDark = document.getElementById('hljs-theme-dark');
+    const contentElement = document.getElementById('content');
+
+    function getInitialTheme() {
+      const savedTheme = localStorage.getItem('sqaf_theme');
+      if (savedTheme) {
+        return savedTheme;
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        lightIcon.classList.remove('hidden');
+        darkIcon.classList.add('hidden');
+        hljsLight.disabled = true;
+        hljsDark.disabled = false;
+        if (contentElement) {
+          contentElement.classList.add('prose-invert');
+        }
+      } else {
+        document.documentElement.classList.remove('dark');
+        lightIcon.classList.add('hidden');
+        darkIcon.classList.remove('hidden');
+        hljsLight.disabled = false;
+        hljsDark.disabled = true;
+        if (contentElement) {
+          contentElement.classList.remove('prose-invert');
+        }
+      }
+
+      // Re-render Mermaid diagrams with updated theme if already present
+      updateMermaidTheme(theme);
+    }
+
+    let currentTheme = getInitialTheme();
+
+    themeToggleBtn.addEventListener('click', () => {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('sqaf_theme', currentTheme);
+      applyTheme(currentTheme);
+    });
+
+    // Escuchar cambios en la preferencia del sistema operativo
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('sqaf_theme')) {
+        currentTheme = e.matches ? 'dark' : 'light';
+        applyTheme(currentTheme);
+      }
+    });
+
+    /**
+     * INTEGRACIÓN Y CONFIGURACIÓN DE MERMAID.JS
+     */
+    function initMermaid(theme) {
+      if (typeof mermaid === 'undefined') return;
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: theme === 'dark' ? 'dark' : 'default',
+        securityLevel: 'loose',
+        fontFamily: 'Inter, sans-serif'
+      });
+    }
+
+    async function renderMermaidDiagrams(theme) {
+      if (typeof mermaid === 'undefined') return;
+
+      const codeBlocks = contentElement.querySelectorAll('pre code.language-mermaid, pre code.mermaid');
+      if (codeBlocks.length === 0) return;
+
+      // Transform code blocks into mermaid container elements
+      codeBlocks.forEach((codeBlock, idx) => {
+        const preElement = codeBlock.parentElement;
+        const mermaidText = codeBlock.textContent;
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm';
+        container.id = `mermaid-container-${idx}`;
+        container.setAttribute('data-mermaid-src', mermaidText);
+
+        preElement.replaceWith(container);
+      });
+
+      await updateMermaidTheme(theme);
+    }
+
+    async function updateMermaidTheme(theme) {
+      if (typeof mermaid === 'undefined') return;
+
+      const containers = contentElement.querySelectorAll('.mermaid-container');
+      if (containers.length === 0) return;
+
+      initMermaid(theme);
+
+      for (let i = 0; i < containers.length; i++) {
+        const container = containers[i];
+        const src = container.getAttribute('data-mermaid-src');
+        if (!src) continue;
+
+        const renderId = `mermaid-svg-${i}-${Date.now()}`;
+        try {
+          // Reset innerHTML before rendering to avoid collisions
+          container.innerHTML = '';
+          const { svg } = await mermaid.render(renderId, src);
+          container.innerHTML = svg;
+        } catch (err) {
+          console.error('Error rendering Mermaid diagram:', err);
+          container.innerHTML = `<pre class="text-xs text-red-500 font-mono overflow-x-auto p-4">${src}</pre>`;
+        }
+      }
+    }
+
+    /**
+     * CARGA Y RENDERIZADO DINÁMICO DE README.MD
+     */
+    const loadingState = document.getElementById('loading-state');
+    const errorState = document.getElementById('error-state');
+    const errorMessage = document.getElementById('error-message');
+
+    // Configuración de Marked.js
+    marked.setOptions({
+      gfm: true,
+      breaks: true,
+      headerIds: true,
+      mangle: false
+    });
+
+    async function loadMarkdown() {
+      loadingState.classList.remove('hidden');
+      errorState.classList.add('hidden');
+      contentElement.classList.add('hidden');
+
+      const rawGithubUrl = `https://raw.githubusercontent.com/${CONFIG.USERNAME}/${CONFIG.REPO}/${CONFIG.BRANCH}/README.md`;
+
+      let markdownText = null;
+      let lastError = null;
+
+      // 1. Intentar cargar por ruta relativa por defecto (GitHub Pages / Servidor Web local)
+      try {
+        const response = await fetch(CONFIG.README_PATH);
+        if (response.ok) {
+          markdownText = await response.text();
+        } else {
+          throw new Error(`Ruta relativa HTTP ${response.status}: ${response.statusText}`);
+        }
+      } catch (err) {
+        console.warn(`Falló la carga relativa (${CONFIG.README_PATH}), intentando URL Raw de GitHub...`, err);
+        lastError = err;
+      }
+
+      // 2. Fallback: Intentar cargar desde URL Raw de GitHub si falla la ruta relativa
+      if (!markdownText) {
+        try {
+          const response = await fetch(rawGithubUrl);
+          if (response.ok) {
+            markdownText = await response.text();
+          } else {
+            throw new Error(`GitHub Raw HTTP ${response.status}: ${response.statusText}`);
+          }
+        } catch (err) {
+          console.error(`Falló la carga desde GitHub Raw (${rawGithubUrl})`, err);
+          lastError = err;
+        }
+      }
+
+      // Renderizar o mostrar error
+      if (markdownText) {
+        // Convertir Markdown a HTML
+        const htmlContent = marked.parse(markdownText);
+        contentElement.innerHTML = htmlContent;
+
+        // Renderizar diagramas Mermaid en SVG
+        await renderMermaidDiagrams(currentTheme);
+
+        // Resaltado de sintaxis con Highlight.js
+        hljs.highlightAll();
+
+        // Mostrar contenido
+        loadingState.classList.add('hidden');
+        contentElement.classList.remove('hidden');
+
+        // Aplicar clase de tema inicial
+        applyTheme(currentTheme);
+      } else {
+        loadingState.classList.add('hidden');
+        errorState.classList.remove('hidden');
+        errorMessage.textContent = `No se pudo obtener el archivo README.md (${lastError ? lastError.message : 'Error de red o ruta invalida'}).`;
+      }
+    }
+
+    // Iniciar carga al cargar el DOM
+    document.addEventListener('DOMContentLoaded', loadMarkdown);
+  </script>
+</body>
+
+</html>
