@@ -44,9 +44,8 @@
   <!-- Marked.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Mermaid.js CDN with Fallback -->
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-  <script>window.mermaid || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"><\/script>')</script>
+  <!-- Mermaid.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 
   <!-- Highlight.js CDN & Dynamic Theme CSS -->
   <link id="hljs-theme-light" rel="stylesheet"
@@ -87,7 +86,7 @@
     }
 
     /* Mermaid Diagram Container styling */
-    .mermaid-container {
+    .mermaid {
       margin-top: 1.5rem;
       margin-bottom: 1.5rem;
       padding: 1.5rem;
@@ -98,7 +97,7 @@
       transition: background-color 0.3s, border-color 0.3s;
     }
 
-    .mermaid-container svg {
+    .mermaid svg {
       max-width: 100%;
       height: auto;
     }
@@ -300,7 +299,7 @@
     });
 
     /**
-     * ROBUST MARKED.JS AND MERMAID.JS INTEGRATION
+     * MARKED.JS CUSTOM RENDERER FOR MERMAID
      */
     const customRenderer = new marked.Renderer();
     const defaultCodeRenderer = customRenderer.code.bind(customRenderer);
@@ -315,7 +314,7 @@
           .replace(/&quot;/g, '"')
           .replace(/&#39;/g, "'");
 
-        return `<div class="mermaid-container bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-6 my-6 flex justify-center overflow-x-auto" data-mermaid-src="${encodeURIComponent(cleanCode)}"></div>`;
+        return `<pre class="mermaid bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-6 my-6 flex justify-center overflow-x-auto" data-mermaid-src="${encodeURIComponent(cleanCode)}">${cleanCode}</pre>`;
       }
       return defaultCodeRenderer(code, language, escaped);
     };
@@ -346,7 +345,7 @@
         return;
       }
 
-      // Transform any existing pre code.language-mermaid element to mermaid-container
+      // Convert any standard pre code.language-mermaid elements into .mermaid containers
       const rawCodeBlocks = contentElement.querySelectorAll('pre code.language-mermaid, code.language-mermaid, pre code.mermaid');
       rawCodeBlocks.forEach((codeEl) => {
         const parent = codeEl.closest('pre') || codeEl;
@@ -357,14 +356,15 @@
           .replace(/&quot;/g, '"')
           .replace(/&#39;/g, "'");
 
-        const container = document.createElement('div');
-        container.className = 'mermaid-container bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-6 my-6 flex justify-center overflow-x-auto';
+        const container = document.createElement('pre');
+        container.className = 'mermaid bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-6 my-6 flex justify-center overflow-x-auto';
         container.setAttribute('data-mermaid-src', encodeURIComponent(rawText));
+        container.textContent = rawText;
         parent.replaceWith(container);
       });
 
-      const containers = contentElement.querySelectorAll('.mermaid-container');
-      if (containers.length === 0) return;
+      const mermaidNodes = contentElement.querySelectorAll('.mermaid');
+      if (mermaidNodes.length === 0) return;
 
       mermaid.initialize({
         startOnLoad: false,
@@ -373,9 +373,9 @@
         fontFamily: 'Inter, sans-serif'
       });
 
-      for (let i = 0; i < containers.length; i++) {
-        const container = containers[i];
-        const encodedSrc = container.getAttribute('data-mermaid-src');
+      for (let i = 0; i < mermaidNodes.length; i++) {
+        const container = mermaidNodes[i];
+        const encodedSrc = container.getAttribute('data-mermaid-src') || encodeURIComponent(container.textContent);
         if (!encodedSrc) continue;
 
         const rawSrc = decodeURIComponent(encodedSrc);
