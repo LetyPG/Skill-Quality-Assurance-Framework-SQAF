@@ -8,6 +8,9 @@ on:
       - 'docs/assets/diagrams/*.mmd'
       - 'scripts/render_diagrams.js'
 
+permissions:
+  contents: write
+
 jobs:
   render:
     runs-on: ubuntu-latest
