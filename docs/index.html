@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skill Quality Assurance Framework - Documentación</title>
+  <title>Skill Quality Assurance Framework - Documentation</title>
   <meta name="description"
-    content="Documentación oficial del Skill Quality Assurance Framework (SQAF). Marco automatizado para la evaluación de calidad de skills de IA.">
+    content="Official documentation for Skill Quality Assurance Framework (SQAF). Automated framework for AI skill quality assessment.">
 
   <!-- Google Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,7 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
-  <!-- Tailwind CSS CDN con Plugin Typography -->
+  <!-- Tailwind CSS CDN with Typography Plugin -->
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <script>
     tailwind.config = {
@@ -44,7 +44,7 @@
   <!-- Marked.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Mermaid.js CDN con Fallback -->
+  <!-- Mermaid.js CDN with Fallback -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>window.mermaid || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"><\/script>')</script>
 
@@ -108,7 +108,7 @@
 <body
   class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased">
 
-  <!-- Header Sticky con Glassmorphism -->
+  <!-- Sticky Header with Glassmorphism -->
   <header
     class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -137,15 +137,15 @@
       <!-- Controls & Links -->
       <div class="flex items-center space-x-2 sm:space-x-4">
         <!-- Theme Toggle Button -->
-        <button id="theme-toggle" type="button" aria-label="Alternar tema"
+        <button id="theme-toggle" type="button" aria-label="Toggle theme"
           class="p-2 rounded-lg text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all focus:outline-none focus:ring-2 focus:ring-brand-500">
-          <!-- Icono Sol (para activar tema claro) -->
+          <!-- Sun Icon (for light mode) -->
           <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor"
             viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
-          <!-- Icono Luna (para activar tema oscuro) -->
+          <!-- Moon Icon (for dark mode) -->
           <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor"
             viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -160,7 +160,7 @@
             <path fill-rule="evenodd" clip-rule="evenodd"
               d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
           </svg>
-          <span class="hidden sm:inline">Ver en GitHub</span>
+          <span class="hidden sm:inline">View on GitHub</span>
         </a>
       </div>
     </div>
@@ -191,9 +191,9 @@
             d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
       </div>
-      <h2 class="text-xl font-bold text-red-900 dark:text-red-200">Error al cargar la documentación</h2>
+      <h2 class="text-xl font-bold text-red-900 dark:text-red-200">Error loading documentation</h2>
       <p id="error-message" class="text-sm text-red-700 dark:text-red-300 max-w-lg mx-auto">
-        No se pudo obtener el archivo README.md. Verifica la ruta o la conexión a internet.
+        Could not fetch the README.md file. Please check the path or your internet connection.
       </p>
       <button onclick="loadMarkdown()"
         class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg shadow transition-colors">
@@ -201,7 +201,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
-        Reintentar
+        Retry
       </button>
     </div>
 
@@ -217,17 +217,17 @@
     class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 py-6 transition-colors duration-300">
     <div
       class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
-      <p>© Skill Quality Assurance Framework (SQAF). Desplegado dinámicamente en GitHub Pages.</p>
+      <p>© Skill Quality Assurance Framework (SQAF). Dynamically deployed on GitHub Pages.</p>
       <div class="flex items-center space-x-4">
-        <a href="#top" class="hover:text-slate-700 dark:hover:text-slate-200 transition-colors">Volver arriba ↑</a>
+        <a href="#top" class="hover:text-slate-700 dark:hover:text-slate-200 transition-colors">Back to top ↑</a>
       </div>
     </div>
   </footer>
 
-  <!-- Script de Configuración y Lógica Dinámica -->
+  <!-- Configuration and Dynamic Logic Script -->
   <script>
     /**
-     * CONFIGURACIÓN DE VARIABLES DEL PROYECTO
+     * PROJECT VARIABLE CONFIGURATION
      */
     const CONFIG = {
       USERNAME: 'LetyPG',
@@ -236,12 +236,12 @@
       README_PATH: '../README.md'
     };
 
-    // Actualizar link de GitHub en el header
+    // Update GitHub link in header
     const repoUrl = `https://github.com/${CONFIG.USERNAME}/${CONFIG.REPO}`;
     document.getElementById('github-link').href = repoUrl;
 
     /**
-     * GESTIÓN DE TEMA (DARK / LIGHT MODE)
+     * THEME MANAGEMENT (DARK / LIGHT MODE)
      */
     const themeToggleBtn = document.getElementById('theme-toggle');
     const lightIcon = document.getElementById('theme-toggle-light-icon');
@@ -291,7 +291,7 @@
       applyTheme(currentTheme);
     });
 
-    // Escuchar cambios en la preferencia del sistema operativo
+    // Listen for OS color scheme preference changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
       if (!localStorage.getItem('sqaf_theme')) {
         currentTheme = e.matches ? 'dark' : 'light';
@@ -300,15 +300,14 @@
     });
 
     /**
-     * INTEGRACIÓN ROBUSTA DE MARKED.JS Y MERMAID.JS
+     * ROBUST MARKED.JS AND MERMAID.JS INTEGRATION
      */
-    // Personalizar el renderizado de bloques de código en Marked.js para Mermaid
     const customRenderer = new marked.Renderer();
     const defaultCodeRenderer = customRenderer.code.bind(customRenderer);
 
     customRenderer.code = function(code, language, escaped) {
       if (language === 'mermaid') {
-        // Desescapar entidades HTML para asegurar sintaxis limpia en Mermaid
+        // Unescape HTML entities to ensure clean Mermaid syntax
         const cleanCode = code
           .replace(/&amp;/g, '&')
           .replace(/&lt;/g, '<')
@@ -321,9 +320,16 @@
       return defaultCodeRenderer(code, language, escaped);
     };
 
-    marked.use({ renderer: customRenderer });
+    // Configure Marked.js unifying options and custom renderer
+    marked.use({
+      gfm: true,
+      breaks: true,
+      headerIds: true,
+      mangle: false,
+      renderer: customRenderer
+    });
 
-    // Esperar a que la librería de Mermaid esté completamente disponible en el navegador
+    // Wait for Mermaid library to be fully available in browser
     async function ensureMermaidLoaded() {
       if (typeof mermaid !== 'undefined') return true;
       for (let i = 0; i < 30; i++) {
@@ -336,9 +342,26 @@
     async function updateMermaidTheme(theme) {
       const isLoaded = await ensureMermaidLoaded();
       if (!isLoaded) {
-        console.warn('La librería Mermaid.js no se cargó correctamente.');
+        console.warn('Mermaid.js library did not load correctly.');
         return;
       }
+
+      // Transform any existing pre code.language-mermaid element to mermaid-container
+      const rawCodeBlocks = contentElement.querySelectorAll('pre code.language-mermaid, code.language-mermaid, pre code.mermaid');
+      rawCodeBlocks.forEach((codeEl) => {
+        const parent = codeEl.closest('pre') || codeEl;
+        const rawText = codeEl.textContent
+          .replace(/&amp;/g, '&')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'");
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-6 my-6 flex justify-center overflow-x-auto';
+        container.setAttribute('data-mermaid-src', encodeURIComponent(rawText));
+        parent.replaceWith(container);
+      });
 
       const containers = contentElement.querySelectorAll('.mermaid-container');
       if (containers.length === 0) return;
@@ -369,19 +392,11 @@
     }
 
     /**
-     * CARGA Y RENDERIZADO DINÁMICO DE README.MD
+     * DYNAMIC LOADING AND RENDERING OF README.MD
      */
     const loadingState = document.getElementById('loading-state');
     const errorState = document.getElementById('error-state');
     const errorMessage = document.getElementById('error-message');
-
-    // Configuración de Marked.js
-    marked.setOptions({
-      gfm: true,
-      breaks: true,
-      headerIds: true,
-      mangle: false
-    });
 
     async function loadMarkdown() {
       loadingState.classList.remove('hidden');
@@ -393,20 +408,20 @@
       let markdownText = null;
       let lastError = null;
 
-      // 1. Intentar cargar por ruta relativa por defecto (Servidor Web local)
+      // 1. Try default relative path load (local web server)
       try {
         const response = await fetch(CONFIG.README_PATH);
         if (response.ok) {
           markdownText = await response.text();
         } else {
-          throw new Error(`Ruta relativa HTTP ${response.status}: ${response.statusText}`);
+          throw new Error(`Relative path HTTP ${response.status}: ${response.statusText}`);
         }
       } catch (err) {
-        console.warn(`Falló la carga relativa (${CONFIG.README_PATH}), intentando URL Raw de GitHub...`, err);
+        console.warn(`Relative load failed (${CONFIG.README_PATH}), trying GitHub Raw URL...`, err);
         lastError = err;
       }
 
-      // 2. Fallback: Intentar cargar desde URL Raw de GitHub si falla la ruta relativa (GitHub Pages)
+      // 2. Fallback: Try GitHub Raw URL if relative load fails (GitHub Pages)
       if (!markdownText) {
         try {
           const response = await fetch(rawGithubUrl);
@@ -416,34 +431,34 @@
             throw new Error(`GitHub Raw HTTP ${response.status}: ${response.statusText}`);
           }
         } catch (err) {
-          console.error(`Falló la carga desde GitHub Raw (${rawGithubUrl})`, err);
+          console.error(`GitHub Raw load failed (${rawGithubUrl})`, err);
           lastError = err;
         }
       }
 
-      // Renderizar o mostrar error
+      // Render or display error
       if (markdownText) {
-        // Convertir Markdown a HTML usando el renderizador personalizado de Marked.js
+        // Convert Markdown to HTML using Marked.js custom renderer
         const htmlContent = marked.parse(markdownText);
         contentElement.innerHTML = htmlContent;
 
-        // Resaltado de sintaxis con Highlight.js (para bloques de código normales)
+        // Syntax highlighting with Highlight.js (for standard code blocks)
         hljs.highlightAll();
 
-        // Mostrar contenido
+        // Display content
         loadingState.classList.add('hidden');
         contentElement.classList.remove('hidden');
 
-        // Renderizar diagramas Mermaid y aplicar tema actual
+        // Render Mermaid diagrams and apply current theme
         applyTheme(currentTheme);
       } else {
         loadingState.classList.add('hidden');
         errorState.classList.remove('hidden');
-        errorMessage.textContent = `No se pudo obtener el archivo README.md (${lastError ? lastError.message : 'Error de red o ruta invalida'}).`;
+        errorMessage.textContent = `Could not fetch README.md file (${lastError ? lastError.message : 'Network error or invalid path'}).`;
       }
     }
 
-    // Iniciar carga al cargar el DOM
+    // Trigger loading on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', loadMarkdown);
   </script>
 </body>
