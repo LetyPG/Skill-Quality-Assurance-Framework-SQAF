@@ -1,0 +1,33 @@
+name: Render Mermaid Diagrams
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/assets/diagrams/*.mmd'
+      - 'scripts/render_diagrams.js'
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Render Diagrams to SVG
+        run: |
+          node scripts/render_diagrams.js
+
+      - name: Commit updated SVGs if changed
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/assets/diagrams/*.svg docs/README.md README.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "style: auto-render mermaid diagrams to SVG"
+          git push

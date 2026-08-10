@@ -225,6 +225,11 @@ The workflow use as the Key Features the fallowing components:
 > **NOTE**: You can prompt in English or other language such as **Spanish**, **this will not affect the quality of the skill assessment** because internal instructions are in English as resource control decision (low tokens consumption), but not as blocking condition.
 
 ### Execution Flow
+
+![Execution Flow](assets/diagrams/execution-flow.svg)
+<details>
+  <summary>Diagram Source (Mermaid)</summary>
+
 ```mermaid
 flowchart TD
     A[User Input Trigger] --> B[Orchestrator Validation]
@@ -242,6 +247,8 @@ flowchart TD
     H -->|Yes| J[Assessment Summarizer Skill]
     J --> K[Generate Final Report md/json]
 ```
+</details>
+
 ### Sub-Agents Structure
 
 Each reviewer (sub-agent) in the framework is built as an isolated module. 
@@ -254,6 +261,10 @@ To prevent cognitive bias, context contamination, and false positives/negatives:
 
 Below is the directory structure that governs every sub-agent:
 
+![Sub-Agents Structure](assets/diagrams/sub-agents-structure.svg)
+<details>
+  <summary>Diagram Source (Mermaid)</summary>
+
 ```mermaid
 graph TD
     AgentFolder["Sub-Agent Directory (e.g., intent-reviewer/)"]
@@ -261,6 +272,7 @@ graph TD
     AgentFolder --> RefFolder["Reference Directory (reference/)<br><i>Contains external guidelines, standards, best practices</i>"]
     AgentFolder --> AssetFolder["Assets Directory (assets/)<br><i>Contains JSON validation schemas & templates</i>"]
 ```
+</details>
 
 ### Calculator Feature 
 The framework use a **Assessment Summarizer** skill, that includes a standalone, deterministic utility (`skills/assessment-summarizer/scripts/calculator.py`) that aggregates reviewer scores, maps risk values, and applies downgrade gates to generate a final recommendation (`APPROVED`, `APPROVED WITH IMPROVEMENTS`, `REQUIRES REVISION`, or `NOT APPROVED`).
@@ -280,6 +292,10 @@ The framework use a **Assessment Summarizer** skill, that includes a standalone,
 
 Resource Consumption Diagram
 
+![Resource Consumption](assets/diagrams/resource-consumption.svg)
+<details>
+  <summary>Diagram Source (Mermaid)</summary>
+
 ```mermaid
 graph TD
     A[Design-Only Assessment] --Intent R1, Instruction R2, QA R3--> B[Aggregator & Downloader]
@@ -290,6 +306,7 @@ graph TD
     F --> G[Generate Markdown Report]
     G --> H[More Token Inputs, Less Predictable Costs]
 ```
+</details>
 **More Skill Quality Means Less Resource Consumption**
 
 - [x] **Resource Efficiency**  

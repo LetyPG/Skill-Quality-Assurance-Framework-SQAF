@@ -101,6 +101,50 @@
       max-width: 100%;
       height: auto;
     }
+
+    /* Pre-rendered Diagram SVG Styling */
+    .prose p img[src*="diagrams/"] {
+      display: block !important;
+      margin: 1.5rem auto !important;
+      padding: 1.25rem;
+      border-radius: 0.75rem;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+      max-width: 100%;
+    }
+
+    .dark .prose p img[src*="diagrams/"] {
+      background-color: #0f172a;
+      border-color: #1e293b;
+      filter: invert(0.9) hue-rotate(180deg);
+    }
+
+    /* Details / Summary collapsible block styling */
+    .prose details {
+      margin-top: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      background-color: rgba(241, 245, 249, 0.6);
+      border: 1px solid #e2e8f0;
+      font-size: 0.875rem;
+    }
+
+    .dark .prose details {
+      background-color: rgba(15, 23, 42, 0.6);
+      border-color: #1e293b;
+    }
+
+    .prose summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .dark .prose summary {
+      color: #94a3b8;
+    }
   </style>
 </head>
 

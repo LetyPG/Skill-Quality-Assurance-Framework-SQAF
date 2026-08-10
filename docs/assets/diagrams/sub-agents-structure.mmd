@@ -1,0 +1,5 @@
+graph TD
+    AgentFolder["Sub-Agent Directory (e.g., intent-reviewer/)"]
+    AgentFolder --> AgentFile["Agent System Prompt File (.md)<br><i>Contains System Prompt, Instructions, Rules</i>"]
+    AgentFolder --> RefFolder["Reference Directory (reference/)<br><i>Contains external guidelines, standards, best practices</i>"]
+    AgentFolder --> AssetFolder["Assets Directory (assets/)<br><i>Contains JSON validation schemas & templates</i>"]

@@ -1,0 +1,15 @@
+flowchart TD
+    A[User Input Trigger] --> B[Orchestrator Validation]
+    B --> C{Mandatory Inputs Exist?}
+    C -->|No| D[Stop & Request Inputs]
+    C -->|Yes| E[Dispatch Sub-Agents in Parallel]
+    E --> F1[Intent Reviewer R1]
+    E --> F2[Instruction Reviewer R2]
+    E --> F3[QA Reviewer R3]
+    E --> F4[Eval Results Reviewer R4 *Optional]
+    F1 & F2 & F3 & F4 --> G[Orchestrator Artifact Validation]
+    G --> H{Valid JSON Schemas?}
+    H -->|No: Activate Fixing Loop| I[Repair Request *Max 2 Attempts]
+    I --> G
+    H -->|Yes| J[Assessment Summarizer Skill]
+    J --> K[Generate Final Report md/json]
