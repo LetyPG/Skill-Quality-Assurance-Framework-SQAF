@@ -44,11 +44,9 @@
   <!-- Marked.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Mermaid.js ESM Import -->
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    window.mermaid = mermaid;
-  </script>
+  <!-- Mermaid.js CDN con Fallback -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>window.mermaid || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"><\/script>')</script>
 
   <!-- Highlight.js CDN & Dynamic Theme CSS -->
   <link id="hljs-theme-light" rel="stylesheet"
