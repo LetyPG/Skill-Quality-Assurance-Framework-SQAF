@@ -230,7 +230,7 @@
      */
     const CONFIG = {
       USERNAME: 'LetyPG',
-      REPO: 'Skill-Quality-Assurance-Framework-SQAF',
+      REPO: '-Skill-Quality-Assessment-Framework-SQAF-',
       BRANCH: 'main',
       README_PATH: '../README.md'
     };
@@ -299,24 +299,49 @@
     });
 
     /**
+     * UTILITY FUNCTIONS FOR HTML ESCAPING
+     */
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function unescapeHtml(str) {
+      return str
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'");
+    }
+
+    /**
      * MARKED.JS CUSTOM RENDERER FOR MERMAID
+     * Handles both Marked v4 legacy parameters (code, language) and Marked v12+ token objects (arg1 = { text, lang }).
      */
     const customRenderer = new marked.Renderer();
     const defaultCodeRenderer = customRenderer.code.bind(customRenderer);
 
-    customRenderer.code = function(code, language, escaped) {
-      if (language === 'mermaid') {
-        // Unescape HTML entities to ensure clean Mermaid syntax
-        const cleanCode = code
-          .replace(/&amp;/g, '&')
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/&quot;/g, '"')
-          .replace(/&#39;/g, "'");
-
-        return `<pre class="mermaid bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-6 my-6 flex justify-center overflow-x-auto" data-mermaid-src="${encodeURIComponent(cleanCode)}">${cleanCode}</pre>`;
+    customRenderer.code = function(arg1, arg2, arg3) {
+      let codeText = '';
+      let lang = '';
+      if (typeof arg1 === 'object' && arg1 !== null) {
+        codeText = arg1.text || '';
+        lang = (arg1.lang || '').trim();
+      } else {
+        codeText = arg1 || '';
+        lang = (arg2 || '').trim();
       }
-      return defaultCodeRenderer(code, language, escaped);
+
+      if (lang === 'mermaid') {
+        const cleanCode = unescapeHtml(codeText);
+        return `<pre class="mermaid bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-6 my-6 flex justify-center overflow-x-auto" data-mermaid-src="${encodeURIComponent(cleanCode)}">${escapeHtml(cleanCode)}</pre>`;
+      }
+      return defaultCodeRenderer(arg1, arg2, arg3);
     };
 
     // Configure Marked.js unifying options and custom renderer
@@ -345,16 +370,11 @@
         return;
       }
 
-      // Convert any standard pre code.language-mermaid elements into .mermaid containers
+      // Convert any fallback standard pre code.language-mermaid elements into .mermaid containers
       const rawCodeBlocks = contentElement.querySelectorAll('pre code.language-mermaid, code.language-mermaid, pre code.mermaid');
       rawCodeBlocks.forEach((codeEl) => {
         const parent = codeEl.closest('pre') || codeEl;
-        const rawText = codeEl.textContent
-          .replace(/&amp;/g, '&')
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/&quot;/g, '"')
-          .replace(/&#39;/g, "'");
+        const rawText = unescapeHtml(codeEl.textContent);
 
         const container = document.createElement('pre');
         container.className = 'mermaid bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-6 my-6 flex justify-center overflow-x-auto';
@@ -379,14 +399,14 @@
         if (!encodedSrc) continue;
 
         const rawSrc = decodeURIComponent(encodedSrc);
-        const renderId = `mermaid-svg-${i}-${Date.now()}`;
+        const renderId = `mermaid-svg-${i}-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
         try {
           container.innerHTML = '';
           const { svg } = await mermaid.render(renderId, rawSrc);
           container.innerHTML = svg;
         } catch (err) {
           console.error('Error rendering Mermaid diagram:', err);
-          container.innerHTML = `<pre class="text-xs text-red-500 font-mono overflow-x-auto p-4">${rawSrc}</pre>`;
+          container.innerHTML = `<pre class="text-xs text-red-500 font-mono overflow-x-auto p-4">${escapeHtml(rawSrc)}</pre>`;
         }
       }
     }
@@ -403,35 +423,26 @@
       errorState.classList.add('hidden');
       contentElement.classList.add('hidden');
 
-      const rawGithubUrl = `https://raw.githubusercontent.com/${CONFIG.USERNAME}/${CONFIG.REPO}/${CONFIG.BRANCH}/README.md`;
+      const candidateUrls = [
+        CONFIG.README_PATH,
+        './README.md',
+        'README.md',
+        `https://raw.githubusercontent.com/${CONFIG.USERNAME}/${CONFIG.REPO}/${CONFIG.BRANCH}/README.md`,
+        `https://raw.githubusercontent.com/${CONFIG.USERNAME}/Skill-Quality-Assurance-Framework-SQAF/${CONFIG.BRANCH}/README.md`,
+        `https://raw.githubusercontent.com/${CONFIG.USERNAME}/skill-quality-assurance-framework/${CONFIG.BRANCH}/README.md`
+      ];
 
       let markdownText = null;
       let lastError = null;
 
-      // 1. Try default relative path load (local web server)
-      try {
-        const response = await fetch(CONFIG.README_PATH);
-        if (response.ok) {
-          markdownText = await response.text();
-        } else {
-          throw new Error(`Relative path HTTP ${response.status}: ${response.statusText}`);
-        }
-      } catch (err) {
-        console.warn(`Relative load failed (${CONFIG.README_PATH}), trying GitHub Raw URL...`, err);
-        lastError = err;
-      }
-
-      // 2. Fallback: Try GitHub Raw URL if relative load fails (GitHub Pages)
-      if (!markdownText) {
+      for (const url of candidateUrls) {
         try {
-          const response = await fetch(rawGithubUrl);
+          const response = await fetch(url);
           if (response.ok) {
             markdownText = await response.text();
-          } else {
-            throw new Error(`GitHub Raw HTTP ${response.status}: ${response.statusText}`);
+            break;
           }
         } catch (err) {
-          console.error(`GitHub Raw load failed (${rawGithubUrl})`, err);
           lastError = err;
         }
       }
