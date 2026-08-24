@@ -216,7 +216,7 @@ The workflow use as the Key Features the fallowing components:
 
 | Component | Role |
 |---|---|
-| Deterministic Security & Validation Hooks | Pre-execution gate (`sqaf_security_hook.py` & `sqaf_performance_hook.py`) enforcing prompt injection blocking, single-skill path validation, file size limits, and user language propagation. |
+| Deterministic Security & Validation Hooks | Pre-execution gate (`sqaf_security_hook.py` & `sqaf_performance_hook.py`) scoped via deterministic `<skill-path>/<skill-name>/SKILL.md` matchers to enforce prompt injection blocking, path validation, file size limits, and user language propagation. |
 | Orchestrator | Coordinates the entire assessment process. |
 | 3 Desing Reviewers Agents (Intent Reviewer, Instruction Reviewer, QA Reviewer)| Assesses each skill independently across three dimensions off design, some like format, context definition, gaps, inconcistencies and ambiguity |
 | 1  Evaluators Agent (Eval Results Reviewer)| It works wiyh the concept as *LLM Judge Model* . Assesses the execution results of the skill, include benchmark analysis, timig, grading (asertions rates, success rates, accuracy rates, etc)|

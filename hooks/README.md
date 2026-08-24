@@ -48,12 +48,22 @@ To enable the hooks in your agent runtime (e.g. Claude Code, Antigravity, Gemini
 {
   "hooks": {
     "UserPromptSubmit": [
-      { "hooks": [{ "type": "command", "command": "python3 hooks/sqaf_security_hook.py" }] },
-      { "hooks": [{ "type": "command", "command": "python3 hooks/sqaf_performance_hook.py" }] }
+      {
+        "matcher": "<skill-path>/<skill-name>/SKILL.md",
+        "hooks": [{ "type": "command", "command": "python3 hooks/sqaf_security_hook.py" }]
+      },
+      {
+        "matcher": "<skill-path>/<skill-name>/SKILL.md",
+        "hooks": [{ "type": "command", "command": "python3 hooks/sqaf_performance_hook.py" }]
+      }
     ]
   }
 }
 ```
+
+### Deterministic Guardrail Decision
+
+To make the hook guardrail fully deterministic, matchers are configured explicitly to `<skill-path>/<skill-name>/SKILL.md` across `.agent/settings.json` and `orchestrator.md`. This ensures pre-execution hooks execute strictly when evaluating skill paths, eliminating unnecessary hook invocations and false positive interceptions on non-assessment prompts.
 
 ---
 

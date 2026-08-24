@@ -80,18 +80,18 @@ If `execute_workflow` is `false`, the runtime aborts immediately, and `block_rea
 
 ---
 
-## 6. Integration Configuration (`.agent/settings.json`)
+## 6. Integration Configuration (`.agent/settings.json` & `orchestrator.md`)
 
 ```json
 {
   "hooks": {
     "UserPromptSubmit": [
       {
-        "matcher": "",
+        "matcher": "<skill-path>/<skill-name>/SKILL.md",
         "hooks": [{ "type": "command", "command": "python3 hooks/sqaf_security_hook.py" }]
       },
       {
-        "matcher": "",
+        "matcher": "<skill-path>/<skill-name>/SKILL.md",
         "hooks": [{ "type": "command", "command": "python3 hooks/sqaf_performance_hook.py" }]
       }
     ]
@@ -101,7 +101,19 @@ If `execute_workflow` is `false`, the runtime aborts immediately, and `block_rea
 
 ---
 
-## 7. Verification & Automated Testing
+## 7. Deterministic Guardrail Decision Summary
+
+To strengthen the framework's shift-left governance and predictability, the hook triggering mechanism was updated from unconstrained matchers (`""`) to explicit skill path matchers (`"<skill-path>/<skill-name>/SKILL.md"`).
+
+* **Architectural Rationale**: Guarantees that pre-execution security checks (`sqaf_security_hook.py`) and performance/validation enrichment (`sqaf_performance_hook.py`) execute deterministically only when user prompts target skill definitions.
+* **Benefits**:
+  - **Zero Execution Overhead**: Eliminates unnecessary Python sub-process spawning on general conversational prompts.
+  - **False Positive Prevention**: Prevents inadvertent prompt injection or file extension blocks on non-assessment agent interactions.
+  - **Unified Metadata Synchronization**: Aligns `.agent/settings.json` runtime configuration with `orchestrator.md` frontmatter hook declarations.
+
+---
+
+## 8. Verification & Automated Testing
 
 The hook suite is validated by 75 automated unit and integration tests under `hooks/tests/`:
 

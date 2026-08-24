@@ -5,6 +5,16 @@ description: Coordinates the complete skill quality assessment workflow, validat
 sub_agents: intent-reviewer, instruction-reviewer, qa-reviewer, eval-reviewer
 skill: assessment-summarizer
 temperature: 0.3
+hooks:
+  UserPromptSubmit:
+  - matcher: "<skill-path>/<skill-name>/SKILL.md"
+    hooks:
+      - type: command
+      - command: "python3 hooks/sqaf_security_hook.py"
+  - matcher: "<skill-path>/<skill-name>/SKILL.md"
+    hooks:
+      - type: command
+      - command: "python3 hooks/sqaf_performance_hook.py"
 license: Apache-2.0
 compatibility: CLI agents(Clude, Antigravity, Wrappy) and IDE Agents (Cursor IDE, ANTIGRAVITY IDE, VsCode, Windsurf, etc)
 metadata:
