@@ -13,7 +13,8 @@ SQAF introduces a systematic, "shift-left" approach to validating AI-native skil
 |----------|-------------|
 | [The Core Problem & Solution Origin](#the-core-problem--solution-origin) | The market context, the concept of Agent Skills, the framework's core value proposition, stack and benefits, including the iterative improvement loop concept. |
 | [Quick Start](#quick-start) | Installation, commands reference an use case reference|  
-| [Two Ways to Use SQAF](#two-ways-to-use-sqaf) | How to use SQAF with your IDE and how to use SQAF with the CLI. Usage modes, and agent integration notes for the `sqaf` CLI runner. | |
+| [AI Agent Discovery & Router (AGENT.md)](#ai-agent-discovery--router-agentmd) | Standard discovery entry point, orchestrator routing, and user customization guidelines. |
+| [Two Ways to Use SQAF](#two-ways-to-use-sqaf) | How to use SQAF with your IDE and how to use SQAF with the CLI. Usage modes, and agent integration notes for the `sqaf` CLI runner. |
 | [System Prerequisites & LLM Dependency](#system-prerequisites--llm-dependency) | Detail the solution prerequisites,LLM dependencies, agents cli setup, and model-specific environment configurations.|
 | [Workflow Overview and Key Features](#workflow-overview-and-key-features) |Solutions components and funcionallities, execution flow|
 | [Solution Resource & Token Consumption](#solution-resource--token-consumption) | One of the primary objectives of this solution is to reduce resource consumption by preventing errors in skills; consequently, the solution itself applies this principle by monitoring resource usage during each skill assessment run. This allows users to compare skills and design quality, as higher-quality skills consume fewer resources during the assessment process.| 
@@ -33,6 +34,7 @@ For deeper dives into the architectural definitions and development practices, r
 | [CLI User Guide](docs/cli_user_guide.md) | Installation, commands reference, usage modes, and agent integration notes for the `sqaf` CLI runner. |
 | [Test Component Description](docs/test_component_description.md) | A comprehensive explanation of testing strategies, mock behaviors, and environment isolation techniques used in the framework. |
 | [Deterministic Security & Validation Hooks](docs/hook_explanatory.md) | Runtime entrypoint validation pipeline, prompt injection defense, file size enforcement, and automated language propagation. |
+| [AI Agent Discovery (AGENT.md)](AGENT.md) | Standard entry point manifest for AI agents, repository map, and user customization zone. |
 
 >[Back to Top](#index)
 ---
@@ -112,6 +114,16 @@ After you clone and init your IDE environment or by CLI
 | From the Cloned Repository|You can use execute the orchestrator within the cloned project workspace and requesting the skill assessment to the AI Agent always must provide the path to the skill| Prompt to the AI Agent and request an skill assessment using the `orchestrator.md` and provide the absolute path to the skill for assessment, e.g.: `/home/user/projects/my-project/skills/my-skill-name/SKILL.md`<br> For more detailed execution workflow see the usage modes| 
 | From other workspace |If you are working in other Repository workspace and you need to assess your skills you can use the orchestrator of SQAF without need to change your current directory| Prompt to the AI Agent and request an skill assessment and you must provide the absolute path where is located the orchestrator file, e.g.: `/home/user/projects/skill-quality-assurance-framework/orchestrator.md` and the skill path for assessment, e.g.: `/home/user/projects/my-project/skills/my-skill-name/SKILL.md` |
 | Try the solution with the Proof of Concept skills | You can use the dummy skills in the `data-test-poc/` directory to trigger assessments and see how the framework operates. | See the [Data Test PoC README](data-test-poc/README.md) for more details.  |
+
+>[Back to Top](#index)
+---
+## AI Agent Discovery & Router (AGENT.md)
+
+Following open industry standards for AI agent repository discovery, this framework provides [`AGENT.md`](AGENT.md) (and symlink `AGENTS.md`) at the repository root. It serves as:
+- **Autonomous Agent Entry Point**: The primary manifest that automated agent runtimes (Claude Code, Antigravity, Cursor, Windsurf, GitHub Copilot) inspect when navigating the repository.
+- **Workflow Router**: Directs AI agents to [`orchestrator.md`](orchestrator.md) as the principal project router for executing skill assessments.
+- **Architectural Safeguards**: Explicitly defines repository boundaries to ensure system prompts, sub-agents, and deterministic hooks remain intact and unbroken.
+- **User Customization Zone**: Includes a dedicated section for users to customize work styles, model choices, and personal conventions without altering core framework prompts.
 
 >[Back to Top](#index)
 ---
